@@ -1,0 +1,34 @@
+TUNAI GRIYA
+--------------
+masterdata
+masterharga
+perencanaan
+hps
+spk
+do
+penerimaan
+retur
+eresep
+
+INPUT TINDAKAN
+--------------
+finger
+
+FINAL TAGIHAN DI IGH
+-----------------------------------------------
+cronjob table tengah untuk koneksi bank mandiri
+mau diubah jadi API
+
+INPUT OBAT
+-------------------
+tambil 
+kode katalog di tambahakn ke keterangan biar bisa search
+
+TTO
+-------------------
+batal final -- kelalaian input vs perubahan tanggal pulang
+
+klaim
+--------------------
+igd --> irna
+irj --> irna

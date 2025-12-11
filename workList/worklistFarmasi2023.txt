@@ -1,0 +1,40 @@
+KEGIATAN :
+------------------------------------------------------
+- RCN
+- TA
+- PINJAM
+- Mekanisme potong stok
+- Stok Opname
+
+DETAIL KEGIATAN :
+------------------------------------------------------
+- Tinggal Ambil
+  * depo saat peresepan
+  * pengambilan obat TA (dev)
+  # potong stok sesuai yang diambil ( 2x, saat resep, saat ta)
+    (simulasi)
+- Pinjam Depo
+  * sts pinjam saat peresepan
+    - setting per user
+	- setting barang
+  * verifikasi & cetak bukti ke pbf (? cara verifikasi)
+  * rekap untuk pengadaan (? cara ngerekap pinjam)
+  * proses SPH dari rekap pinjam
+  * penerimaan dengan referensi pemakaian pinjam (rekap)
+  # potong stok
+    - barang pinjam tidak potong stok
+	- ver gudang u/ penerimaan ref pemakaian pinjam
+	  * gudang masuk, mutasi ke depo, depo jadi resep
+- Pinjam Gudang & Pengembalian
+  * pbf & barang
+  # potong stok :
+    - pinjam => tambah stok
+	- kembali => pengembalian pinjaman (kurangi stok)
+# Potong stok mutasi antar depo :
+  - barang kirim (potong stok pakai tanggal kirim)
+  - barang terima (tambah stok pakai tanggal terima)
+  - monitoring stok kirim belum diterima
+# Potong stok mutasi floor stok :
+  - barang kirim (potong stok pakai tanggal kirim)
+  - tidak perlu terima barang
+  - stok opname florr stok secara manual

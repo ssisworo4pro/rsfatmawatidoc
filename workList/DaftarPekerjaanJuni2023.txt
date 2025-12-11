@@ -1,0 +1,92 @@
+done
+-------------------------------------------
+- Interface master menu *
+
+on progress
+-------------------------------------------
+- server - review dengan viki
+  - pemisahan service public vs local/vpn
+  - auth berbada antara public vs local/vpn
+- cloning untuk modul eklami terbaru di komputer baru * ujicoba user - supervisi paching database
+- Ujicoba Reservasi - supervisi Ihlus & Joko
+  * pasien rajal & Griya khusus pasien lama, semua carabayar
+  * kasus post-ranap BPJS, masalah SEP
+- Master katalog --- to Production
+  - team terima
+  - terima gudang
+  - transaksi farmasi
+  - Sakti
+
+
+masuk interface
+-----------------------------------------------
+
+masuk webservice
+------------------------------------------------
+
+desain proses
+------------------------------------------------
+- Voucher
+  - Tracking Berkas
+  - Monitoring Tagihan
+- SDM Pegawai
+  - Master data pegawai
+  - Mastet data remun
+  - Transaksi Remun
+  - JP Dokter
+  - BIOS
+
+list
+-----------------------------------------------
+- Interface Pasien & API-nya (cloning simrsgos)
+- Satu Sehat
+- Antrian Online BPJS
+
+PIC
+------------------------
+Bagus 
+- Satu Sehat
+Abi
+- Klaim
+Deni
+- Antrol
+
+
+
+=========================================
+Voucher
+(bagus pic, viki support database, ss support analisa)
+- Pelajari Interface     
+- Pelajari Insert Table
+(alokasi selanjutnya)
+- Function & API
+- Interface
+
+Eklaim terbaru
+(pic : abi, dibantu viki, supervisi : chandra, Fauji)
+- siapkan komputer 
+- cloning
+- running aplikasi
+- Pelajari modul2 eklaim
+- List modul
+- Terapkan di simrsgos.rsf.lokalpic
+
+Framework menu
+(pic : heru, support : chandra dan ss)
+- Inteface menu
+(pic : Ilham)
+- Interface Login (seperti simrsgos)
+- Interface Landing Page Dasar (seperti simrgos)
+
+SDM
+- Database (ss)
+- API (Chandra)
+- Desain Inteface (ss)
+- Interface (minggu depan)
+
+Team Terima
+- Ujicoba Master Katalog (ss)
+- Ujicoba Integrasi TeamTerima dan Gudang (ss)
+
+simrsgos
+- Laporan Operasi (Deni, Ilus)

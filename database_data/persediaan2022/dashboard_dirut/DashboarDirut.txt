@@ -1,0 +1,61 @@
+URAIAN :
+---------------
+KIA
+    1. Pasien rawat inap untuk ibu melahirkan tahun 2022            649
+    8. Pasien rajal pada ibu dengan diagnosa kehamilan            3.083
+	
+    2. Pasien anak rawat di perinatologi dan nicu tahun 2022        599
+    9. Pasien rajal anak bayi dibawah 28 hari                     1.018
+Uronefro
+    6. Rawat dpjp urologi dan ginjal anak dan dewasa tahun 2022   3.048
+       - urologi anak   :  364
+ 	   - urologi dewasa :  969
+	   - ginjal anak    :  391
+	   - ginjal dewasa  : 1362
+Diabetes Melitus
+   10. DM          
+       - rajal          : 12.919
+	   - ranap          : 13.408
+Kanker
+   4.  Jumlah pasien ranap dengan diagnosa kanker tahun 2022      2.850
+   5.  Jumlah pasien rajal dengan diagnosa kanker tahun 2022      8.046
+PIE
+   11. Pasien PIE
+       - rajal          : 11.823
+	   - ranap          :  9.132
+Jantung
+   3.  pasien rawat dengan dpjp jantung tahun 2022                2.597
+neuro
+   7.  rawat dpjp neuro tahun 2022                                1.650
+  
+PARAMETER
+	KODE ICD
+		COVID19 : 	U07.1 ==> positif
+					U07.2 ==> suspect
+		HIV     :	. B20
+		KUSTA   : 	A30.9
+		DBD     : 	A90
+		DYFTERY : 	A36.8/A36.9
+		DBD     : 	A91 DOK
+		DM      : 	E10-E15 
+		
+		COVID19 : 'U07.1','U07.2'
+		KUSTA   : 'A30.9'
+		DYFTERY : 'A36.8','A36.9'
+		HIV     : 'B20','B20.0','B20.1','B20.2','B20.3','B20.4','B20.5','B20.6','B20.7','B20.8','B20.9'
+		DBD     : 'A90','A91','A91.0','A91.1','A91.9'
+		DM      : 'E10','E11','E12','E13','E14','E15'
+		
+
+	untuk yg kasus Uronefro diambil dari DPJP spesialis bedah urologi dan urologi
+	kasus uronefro anak ambil dari pasiennya 
+		dokter bobby Sp.An
+		dr.yonas Sp.An
+
+
+STRUKTUR :
+---------------
+RANAP --> BPJS     --> Kelas
+      --> NON BPJS --> Kelas
+RAJAL --> BPJS 
+      --> NON BPJS

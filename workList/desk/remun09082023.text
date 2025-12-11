@@ -1,0 +1,95 @@
+* Input Pemeriksaan yang sama jam sama
+* Input Pemeriksan & Konsultasi untuk pasien yang sama di hari sama
+  - divalidasi tidak dapat input 2 kali
+* pemisahan kegiatan rawat jalan vs rawat inap
+* pemeriksaan vs konsultasi .... konsul hanya untuk konsul
+* pasang CVP dengan level severity dibawah 3
+* pendaftaran kedua untuk rawat jalan
+  - daftar & konsul, dan daftar
+* assesment awal tidak harus ngisi cppt
+* visite pagi dan sore
+* lumbal pungsi 2 kali klik
+* bougenville --- dari gh .... MASUK JKN
+* pemeriksaan bertingkat :
+  EMG vs EMG NCV
+  
+  
+  -----------------------------
+  
+  select * from layanan.tindakan_medis
+select * from lis_bridging.kinerja_dokter_lab
+select * from pendaftaran.kunjungan k where k.NOMOR = '1010701052307010298'
+select * from pendaftaran.pendaftaran p where p.NOMOR = '2306130687'
+select * from layanan.order_lab ol where ol.NOMOR = '121010203142307010040'
+select * from pendaftaran.kunjungan k where k.NOMOR = '1010203142306200005'
+
+select * from master.tindakan t where t.NAMA like '%MRI 3 Te%'
+
+select * from rsfPelaporan.tremun_datarinci td where td.id_remunproses = 12 and td.dokter_nama like '%hastari%'
+
+------------------------------------------------------
+
+-- select * from lis_bridging.demographics d 
+
+
+--  APPT
+select 		* 
+	from 	master.tindakan t 
+	where 	NAMA like '%APTT%';
+
+SELECT 		count(1)
+	FROM 	lis_bridging.kinerja_dokter_lab kdl 
+	where 	kdl.kd_tindakan_periksa 	 = 1883 
+			and tgl_hasil 				>= '2023-07-01' 
+			and tgl_hasil 	 			 < '2023-08-01';
+
+SELECT 		count(1)
+	FROM 	rsfPelaporan.tremun_datarinci td 
+	where 	td.kegiatan_id 				 = 1883 
+			and td.tgl_transaksi 		>= '2023-07-01' 
+			and td.tgl_transaksi 		 < '2023-08-01';
+
+SELECT 		tm.*, kdl.*, td.*
+	FROM 	lis_bridging.kinerja_dokter_lab kdl
+			left outer join layanan.tindakan_medis tm 
+			on 	SUBSTRING(tm.KUNJUNGAN, 8)  = kdl.no_pendaftaran_lab and
+				tm.TINDAKAN = kdl.kd_tindakan_periksa 
+			left outer join rsfPelaporan.tremun_datarinci td
+			on  td.id_remunproses = 12 and td.id_transaksi = tm.ID 
+			left outer join pendaftaran.kunjungan k 
+			on 	k.NOMOR = tm.KUNJUNGAN 
+			left outer join pendaftaran.pendaftaran p 
+			on 	k.NOPEN = p.NOMOR and
+				p.NOMOR = kdl.no_pendaftaran 
+	where 	kdl.kd_tindakan_periksa 	 = 1883
+			and tgl_hasil 				>= '2023-07-01' 
+			and tgl_hasil 	 			 < '2023-08-01';
+		
+select SUBSTRING(NOMOR, 8), k.* from pendaftaran.kunjungan k 
+        052306300329
+        012204010002
+        1012204010001
+1010101 012204010002
+---------------------
+1001	Pemeriksaan Dokter Umum
+1002	Pemeriksaan Dokter Spesialis
+1003	Pemeriksaan Dokter Spesialis Mata
+1004	Konsultasi Dokter Umum
+1005	Konsultasi Dokter Spesialis
+1006	Konsultasi Dokter Spesialis Mata
+3290	Visite
+3291	Konsultasi Rawat Inap
+4404	Konsultasi (UE/IGD)
+4405	Pemeriksaan (UE/IGD)
+4425	Konsultasi (VK)
+4426	Pemeriksaan (VK)
+4409	Periksa Dalam (VK)
+5014	Pemeriksaan Dr/Drg. Spesialis
+5016	Pemeriksaan Dokter Spesialis Konsultan
+5017	Konsultasi Dokter Spesialis Konsultan
+5018	Pemeriksaan Dr/Drg. Spesialis JKN
+5019	Konsultasi Dr/Drg. Spesialis JKN
+5020	Pemeriksaan Dokter Spesialis Konsultan JKN
+5021	Konsultasi Dokter Spesialis Konsultan JKN
+5022	Pemeriksaan Dokter Umum
+5023	Konsultasi Dokter Umum

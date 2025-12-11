@@ -1,0 +1,87 @@
+Rencana Aksi
+----------------------------
+cloning :
+- SAMRS (ipsrs-alat medik)       5.30 / 3.128 / 103.154.124.183 samrs.rsupfatmawati.id
+  aset & manajement ticketing
+
+dicoba untuk dimatikan :
+- ITLAB                          3.15
+- SIMRSGOS.DASHBOARD             5.66 / 3.65
+
+dicoba untuk dimatikan dan monitor yang komplain :
+- SIMRSGOS.API.BPJS (antrol)     5.22 / 3.76 / 103.154.124.184 api.rsupfatmawati.id
+
+------------------------------------------------
+Database
+- UTD                            5.45 (os) 
+* PRO (rsupf)                    5.50
+  (+ backup aplikasi KE DB.BACKUP2)
+* sybase.BO                      3.10
+  (+ backup aplikasi KE DB.BACKUP1)
+- sybase.FO                      3.11
+  (+ backup aplikasi KE DB.BACKUP1)
+* FATMAHOST                      5.77
+  (+ backup aplikasi KE DB.BACKUP2)
+* SIMRSGOS                       5.8
+  (+ backup aplikasi KE DB.BACKUP2)
+* SIMRSGOS.REP                   5.79
+* MS-SQL                   		 3.37
+  (laporan kegiatan, reservasi poli)
+  (+ backup aplikasi KE DB.BACKUP1)
+  
+Server Database & Aplikasi
+* bankMandiri                    3.48 (fisik)
+* SAMRS (ipsrs-alat medik)       5.30 / 3.128 / 103.154.124.183 samrs.rsupfatmawati.id
+  aset & manajement ticketing
+  (+ backup aplikasi KE DB.BACKUP1)
+* SIDOKAR (akreditasi)           5.239 / 3.54 / 103.154.124.182 sidokar.rsupfatmawati.id
+  (+ backup aplikasi KE DB.BACKUP1)
+* WEBSITE RSF                    5.51 / 3.70 / 103.154.124.181 rsupfatmawati.id
+  (+ backup aplikasi KE DB.BACKUP2)
+- eKlaim Dummy                   5.57
+- eKlaim Pro                     5.36
+  (+ backup aplikasi KE DB.BACKUP1)
+* CanReg 5                       5.46 / 3.18
+- BUILD.SIMRSGOS                 5.7
+- TEST.SIMRSGOS                  5.32 / 3.53
+
+Aplikasi
+- UTD                            5.44
+* FATMAHOST (dan PRO)            5.52 / 3.49
+  (+ backup aplikasi KE DB.BACKUP2)
++ HOSPIA.BE.DEV                  5.23 / 103.154.124.189 devws.rsupfatmawati.id
++ HOSPIA.FE.DEV                	 5.65 / 3.75 / 103.154.124.190 devapp.rsupfatmawati.id (devweb.rsupfatmawati.id)
+- HOSPIA.BE.PROD1                5.28 / 103.154.124.185 ws.rsupfatmawati.id
+- HOSPIA.FE.PROD1                5.10 / 3.64 / 103.154.124.186 app.rsupfatmawati.id
+  (practitioner / lokal-vpn)
+- HOSPIA.FE.PROD2                5.80 / 103.154.124.187 webapp.rsupfatmawati.id
+* JASPER (teamterima)            5.29
+  (+ backup aplikasi KE DB.BACKUP2)
+- GIT (simgos)                   5.19 / 3.12 / 103.154.124.180 git.rsupfatmawati.id
+- SIMRSGOS.PROD.REPS             5.78
+- SIMRSGOS.DASHBOARD             5.66 / 3.65
+- SIMRSGOS.BALLANCER_LOCAL       5.60 / 3.25
+  (+ rsycn APP1..APP5 + SCHE + API)
+  (+ backup aplikasi KE DB.BACKUP2)
+- SIMRSGOS.APP1                  5.61 / 3.27
+- SIMRSGOS.APP2                  5.62 / 3.31
+- SIMRSGOS.APP3                  5.63 / 3.32
+- SIMRSGOS.BALLANCER_INET        5.25 / 3.67
+- SIMRSGOS.APP4                  5.27 / 3.68
+- SIMRSGOS.APP5                  5.31 / 3.74
+- SIMRSGOS.SCHEDULER (cronjob)   5.40
+  (api interconnection)
+- SIMRSGOS.API.BPJS (antrol)     5.22 / 3.76 / 103.154.124.184 api.rsupfatmawati.id
+- DB.BACKUP1                     3.35
+  (windows)
+- DB.BACKUP2                     5.64 / 3.30
+  (linux)
+
+Server Tersendiri
+* PACS              (jarigan sendiri, fisik)
+  http://172.16.10.12/zfp
+- LAB (roche)                    11.19
+* ITLAB                          3.15
+
+Server Belum Aktif
++                                5.73

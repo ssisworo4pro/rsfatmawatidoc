@@ -1,0 +1,858 @@
+select * from (
+SELECT		max(subsubquery.katalog_id) as katalog_id,
+			max(barang.KODE_BARANG) as katalog_kode,
+			max(subsubquery.katalog_nama) as katalog_nama,
+			max(r.DESKRIPSI) as katalog_merk,
+			sum(subsubquery.qty_opname) as qty_opname,
+			sum(subsubquery.qty_masuk) as 17i,
+			sum(subsubquery.qty_keluar) as 17o,
+			sum(subsubquery.qty_trx) as 17t,
+			sum(subsubquery.qty_opname) + sum(subsubquery.qty_masuk)
+			- sum(subsubquery.qty_keluar) - sum(qty_trx) as 17s
+	from	(
+				SELECT		katalog_kode,
+							katalog_id,
+							katalog_nama,
+							qty_opname,
+							qty_trx,
+							nilai_trx,
+							qty_masuk,
+							qty_keluar
+					from	(
+								SELECT		max(br.KODE_BARANG) as katalog_kode,
+											max(br.ID) as katalog_id,
+											max(br.NAMA) as katalog_nama,
+											0 as qty_opname,
+											sum(dr.JUMLAH) as qty_trx,
+											sum(hb.HARGA_JUAL) as nilai_trx,
+											0 as qty_masuk,
+											0 as qty_keluar
+									FROM	layanan.order_resep r 
+											LEFT JOIN pendaftaran.kunjungan k ON r.NOMOR = k.REF
+											LEFT JOIN pendaftaran.pendaftaran p ON p.NOMOR = k.NOPEN
+											LEFT JOIN master.pasien mp ON mp.NORM = p.NORM, 
+											layanan.order_detil_resep dr
+											LEFT JOIN inventory.barang br ON dr.FARMASI = br.ID
+											LEFT JOIN inventory.harga_barang hb ON hb.BARANG = br.ID  
+									WHERE	r.NOMOR 		 = dr.ORDER_ID AND 
+											r.TANGGAL 		 > (select max(TANGGAL_DIBUAT) 
+																from inventory.stok_opname
+																where RUANGAN = '101030106') and
+											r.TANGGAL 		 <  '2023-01-01' AND
+											r.STATUS         = 2 AND
+											r.TUJUAN 		 = '101030106'
+									group	by br.ID
+									order by br.ID
+							) subquery
+				UNION ALL
+				select		b.KODE_BARANG as katalog_kode,
+							b.ID as katalog_id, b.NAMA as katalog_nama, 
+							sod.MANUAL as qty_opname, 
+							0 as qty_trx, 0 as nilai_trx,
+							0 as qty_masuk,
+							0 as qty_keluar
+					from	inventory.stok_opname so,
+							inventory.stok_opname_detil sod 
+							left outer join inventory.barang_ruangan br 
+							on	sod.BARANG_RUANGAN = br.id
+							left outer join inventory.barang b 
+							on br.BARANG = b.ID 
+					where	so.id		= sod.STOK_OPNAME and
+							so.TANGGAL 	> '2022-12-16' and
+							sod.MANUAL  != 0 and
+							so.RUANGAN 	= '101030106'
+				UNION ALL
+			select	*
+				from	(
+							select 		max(b.KODE_BARANG) as katalog_kode,
+										max(br.BARANG) as katalog_id,
+										max(b.NAMA) as katalog_nama,
+										0 as qty_opname,
+										0 as qty_trx,
+										0 as nilai_trx,
+										COALESCE(sum(pd.JUMLAH), 0) as qty_masuk,
+										0 as qty_keluar
+								from 	inventory.penerimaan p, 
+										inventory.pengiriman pg,
+										inventory.pengiriman_detil pd,
+										inventory.kategori k,
+										inventory.barang b,
+										inventory.barang_ruangan br,
+										master.ruangan r,
+										master.ruangan rasal,
+										inventory.jenis_transaksi_stok jts
+								where	p.REF 				 = pd.PENGIRIMAN and
+										pg.NOMOR			 = pd.PENGIRIMAN and
+										br.BARANG 	 		 = b.ID and
+										b.KATEGORI 			 = k.ID and
+										br.RUANGAN  		 = pg.TUJUAN and
+										br.BARANG   		 = pd.BARANG and
+										r.id 				 = br.ruangan AND
+										pg.ASAL 		     = rasal.ID AND
+										jts.ID				 = 20 AND
+										p.JENIS     	 	 = 2 and 
+										p.TANGGAL 		     > (select max(TANGGAL_DIBUAT) 
+																from inventory.stok_opname
+																where RUANGAN = '101030106') and
+										p.TANGGAL 		     <  '2023-01-01' AND
+										pg.TUJUAN 			 = '101030106'
+								GROUP	BY 	br.BARANG
+							) subquery
+			UNION ALL
+			select	*
+				from	(
+							select 		max(b.KODE_BARANG) as katalog_kode,
+										max(br.BARANG) as katalog_id,
+										max(b.NAMA) as katalog_nama,				
+										0 as qty_opname,
+										0 as qty_trx,
+										0 as nilai_trx,
+										0 as qty_masuk,
+										COALESCE(sum(pd.JUMLAH), 0) as qty_keluar
+								from 	inventory.penerimaan p, 
+										inventory.pengiriman pg,
+										inventory.pengiriman_detil pd,
+										inventory.kategori k,
+										inventory.barang b,
+										inventory.barang_ruangan br,
+										master.ruangan r,
+										master.ruangan rtujuan,
+										inventory.jenis_transaksi_stok jts
+								where	p.REF 				 = pd.PENGIRIMAN and
+										pg.NOMOR			 = pd.PENGIRIMAN and
+										br.BARANG 	 		 = b.ID and
+										b.KATEGORI 			 = k.ID and
+										br.RUANGAN  		 = pg.ASAL and
+										pg.TUJUAN 		     = rtujuan.ID AND
+										br.BARANG   		 = pd.BARANG and
+										r.id 				 = br.ruangan AND
+										jts.ID				 = 23 AND
+										p.JENIS     	 	 = 2 and 
+										p.TANGGAL 		     > (select max(TANGGAL_DIBUAT) 
+																from inventory.stok_opname
+																where RUANGAN = '101030106') and
+										p.TANGGAL 		     <  '2023-01-01' AND
+										pg.ASAL 			 = '101030106'
+								GROUP	BY 	br.BARANG
+							) subquery
+			) subsubquery inner join
+			inventory.barang barang
+ 			on	barang.id = subsubquery.katalog_id
+			inner join master.referensi r
+            on barang.MERK = r.ID 			
+	where   r.JENIS = 39
+	GROUP   by subsubquery.katalog_id
+	ORDER 	by subsubquery.katalog_nama
+) obats
+where 17s < 0;
+
+
+------------------ RINCIAN PER KSM Dokter
+
+SELECT		max(miKunjungan.dashboard_klp) as INSTALASI,
+			max(pk.RUANGAN) as RUANGAN,
+			max(IFNULL(smf.DESKRIPSI,smf2.DESKRIPSI)) as SMF,
+			max(IFNULL( mpeg.NIP, mpg.NIP)) as DOKTER_NIP,
+			max(IFNULL( mpeg.NAMA, mpg.NAMA)) as DOKTER_NAMA,
+			max(msttind.NAMA) as nama_pemeriksaan,
+			sum(1) as TOTAL,
+			sum(if(pj.JENIS  = 2, 1, 0)) as BPJS,
+			sum(if(pj.JENIS != 2, 1, 0)) as BPJSNon,
+			sum(if(mruang.ID = ma.ID, 1, 0)) as Direct,
+			sum(if(mruang.ID = ma.ID AND pj.JENIS  = 2, 1, 0)) as DirectBPJS,
+			sum(if(mruang.ID = ma.ID AND pj.JENIS != 2, 1, 0)) as DirectBPJSNon,
+			sum(if(mruang.ID != ma.ID, 1, 0)) as Indirect,
+			sum(if(mruang.ID != ma.ID AND pj.JENIS  = 2, 1, 0)) as IndirectBPJS,
+			sum(if(mruang.ID != ma.ID AND pj.JENIS != 2, 1, 0)) as IndirectBPJSNon
+	FROM 	layanan.tindakan_medis ltm
+			LEFT JOIN master.tindakan msttind ON ltm.TINDAKAN = msttind.ID
+			LEFT JOIN pembayaran.rincian_tagihan trf ON ltm.ID = trf.REF_ID and trf.JENIS=3 and trf.`STATUS` != 0
+			LEFT JOIN `master`.tarif_tindakan mtf on mtf.ID=trf.TARIF_ID
+			LEFT JOIN layanan.petugas_tindakan_medis lptm ON lptm.TINDAKAN_MEDIS = ltm.ID
+			LEFT JOIN master.dokter mdok ON lptm.MEDIS = mdok.ID AND lptm.JENIS in (1,2)
+			LEFT JOIN master.pegawai mpeg ON mpeg.NIP = mdok.NIP
+			LEFT JOIN master.referensi smf on mpeg.SMF=smf.ID and smf.JENIS ='26'
+			LEFT JOIN aplikasi.pengguna ustm ON ltm.OLEH=ustm.ID	
+			LEFT JOIN master.pegawai mpg ON ustm.NIP=mpg.NIP AND mpg.PROFESI=4
+			LEFT JOIN master.referensi smf2 on mpg.SMF=smf2.ID and smf2.JENIS ='26',
+			master.tindakan mtin,
+			pendaftaran.kunjungan pk
+			LEFT JOIN pendaftaran.pendaftaran pp ON pp.NOMOR = pk.NOPEN
+			LEFT JOIN layanan.pasien_pulang ppulang ON pk.NOMOR = ppulang.KUNJUNGAN AND ppulang.STATUS = 1
+			LEFT JOIN master.pasien mps ON mps.NORM = pp.NORM
+			LEFT JOIN master.referensi mref ON mps.JENIS_KELAMIN = mref.ID AND mref.JENIS = 2
+			LEFT JOIN master.ruangan mruang ON mruang.ID = pk.RUANGAN
+			LEFT JOIN master.ruangan ir ON ir.ID=LEFT(pk.RUANGAN,5) and ir.JENIS=3
+			LEFT JOIN pendaftaran.penjamin pj ON pj.NOPEN = pp.NOMOR
+			LEFT JOIN master.referensi mref2 ON pj.JENIS = mref2.ID AND mref2.JENIS = 10
+			LEFT JOIN pendaftaran.tujuan_pasien tp ON tp.NOPEN=pp.NOMOR
+			LEFT JOIN master.ruangan ma ON ma.ID=tp.RUANGAN
+			LEFT JOIN master.ruangan ins ON ins.ID=LEFT(tp.RUANGAN,5) and ins.JENIS=3
+			LEFT JOIN rsfMaster.mlokasi_ruangan miKunjungan ON miKunjungan.id = mruang.ID
+	WHERE   pk.STATUS      != 0 and
+			pk.MASUK       >= '2022-04-01' and
+			pk.MASUK        < '2023-01-01' and
+			ltm.KUNJUNGAN   = pk.NOMOR AND
+			ltm.STATUS     != 0 and
+			mtin.ID         = ltm.TINDAKAN
+	GROUP	BY 	miKunjungan.dashboard_klp, IFNULL(smf.DESKRIPSI,smf2.DESKRIPSI)
+	order	BY 	miKunjungan.dashboard_klp, IFNULL(smf.DESKRIPSI,smf2.DESKRIPSI)
+
+----------------------------------------------------------------------------------------
+
+SELECT		max(miKunjungan.dashboard_klp) as KunjunganInstalasi,
+			max(msttind.NAMA) as nama_pemeriksaan,
+			sum(1) as QTY_TOTAL,
+			sum(trf.tarif) as NILAI_TOTAL,
+			'Tindakan' as header,
+			-- max(mruang.DESKRIPSI) as KunjunganRuang,
+			-- max(ins.DESKRIPSI) as PendaftaranInstalasi,
+			-- max(ma.DESKRIPSI) as PendaftaranRuang,
+			sum(if(pj.JENIS  = 2, trf.tarif, 0)) as BPJS,
+			sum(if(pj.JENIS != 2, trf.tarif, 0)) as BPJSNon,
+			sum(if(mruang.ID = ma.ID, trf.tarif, 0)) as Direct,
+			sum(if(mruang.ID = ma.ID AND pj.JENIS  = 2, trf.tarif, 0)) as DirectBPJS,
+			sum(if(mruang.ID = ma.ID AND pj.JENIS != 2, trf.tarif, 0)) as DirectBPJSNon,
+			sum(if(mruang.ID != ma.ID, trf.tarif, 0)) as Indirect,
+			sum(if(mruang.ID != ma.ID AND pj.JENIS  = 2, trf.tarif, 0)) as IndirectBPJS,
+			sum(if(mruang.ID != ma.ID AND pj.JENIS != 2, trf.tarif, 0)) as IndirectBPJSNon
+	FROM 	layanan.tindakan_medis ltm
+			LEFT JOIN master.tindakan msttind ON ltm.TINDAKAN = msttind.ID
+			LEFT JOIN pembayaran.rincian_tagihan trf ON ltm.ID = trf.REF_ID and trf.JENIS=3 and trf.`STATUS` != 0
+			LEFT JOIN `master`.tarif_tindakan mtf on mtf.ID=trf.TARIF_ID,
+			master.tindakan mtin,
+			pendaftaran.kunjungan pk
+			LEFT JOIN pendaftaran.pendaftaran pp ON pp.NOMOR = pk.NOPEN
+			LEFT JOIN layanan.pasien_pulang ppulang ON pk.NOMOR = ppulang.KUNJUNGAN AND ppulang.STATUS = 1
+			LEFT JOIN master.pasien mps ON mps.NORM = pp.NORM
+			LEFT JOIN master.referensi mref ON mps.JENIS_KELAMIN = mref.ID AND mref.JENIS = 2
+			LEFT JOIN master.ruangan mruang ON mruang.ID = pk.RUANGAN
+			LEFT JOIN master.ruangan ir ON ir.ID=LEFT(pk.RUANGAN,5) and ir.JENIS=3
+			LEFT JOIN pendaftaran.penjamin pj ON pj.NOPEN = pp.NOMOR
+			LEFT JOIN master.referensi mref2 ON pj.JENIS = mref2.ID AND mref2.JENIS = 10
+			LEFT JOIN pendaftaran.tujuan_pasien tp ON tp.NOPEN=pp.NOMOR
+			LEFT JOIN master.ruangan ma ON ma.ID=tp.RUANGAN
+			LEFT JOIN master.ruangan ins ON ins.ID=LEFT(tp.RUANGAN,5) and ins.JENIS=3
+			LEFT JOIN rsfMaster.mlokasi_ruangan miKunjungan ON miKunjungan.id = mruang.ID
+	WHERE   pk.STATUS     != 0 and
+			pk.MASUK      >= '2022-04-01' AND
+			pk.MASUK      <  '2023-01-01' AND
+			ltm.KUNJUNGAN   = pk.NOMOR AND
+			ltm.STATUS     != 0 and
+			mtin.ID         = ltm.TINDAKAN and
+			miKunjungan.id is not null
+	GROUP	BY  miKunjungan.dashboard_klp
+
+SELECT		max(miKunjungan.dashboard_klp) as KunjunganInstalasi,
+			max(IFNULL(smf.DESKRIPSI,smf2.DESKRIPSI)) as SMF,
+			max(IFNULL( mpeg.NIP, mpg.NIP)) as DOKTER,
+			max(IFNULL( mpeg.NAMA, mpg.NAMA)) as DOKTER,
+			max(msttind.NAMA) as nama_pemeriksaan,
+			sum(1) as QTY_TOTAL,
+			sum(trf.tarif) as NILAI_TOTAL,
+			'Tindakan' as header,
+			-- max(mruang.DESKRIPSI) as KunjunganRuang,
+			-- max(ins.DESKRIPSI) as PendaftaranInstalasi,
+			-- max(ma.DESKRIPSI) as PendaftaranRuang,
+			sum(if(pj.JENIS  = 2, trf.tarif, 0)) as BPJS,
+			sum(if(pj.JENIS != 2, trf.tarif, 0)) as BPJSNon,
+			sum(if(mruang.ID = ma.ID, trf.tarif, 0)) as Direct,
+			sum(if(mruang.ID = ma.ID AND pj.JENIS  = 2, trf.tarif, 0)) as DirectBPJS,
+			sum(if(mruang.ID = ma.ID AND pj.JENIS != 2, trf.tarif, 0)) as DirectBPJSNon,
+			sum(if(mruang.ID != ma.ID, trf.tarif, 0)) as Indirect,
+			sum(if(mruang.ID != ma.ID AND pj.JENIS  = 2, trf.tarif, 0)) as IndirectBPJS,
+			sum(if(mruang.ID != ma.ID AND pj.JENIS != 2, trf.tarif, 0)) as IndirectBPJSNon
+	FROM 	layanan.tindakan_medis ltm
+			LEFT JOIN master.tindakan msttind ON ltm.TINDAKAN = msttind.ID
+			LEFT JOIN pembayaran.rincian_tagihan trf ON ltm.ID = trf.REF_ID and trf.JENIS=3 and trf.`STATUS` != 0
+			LEFT JOIN `master`.tarif_tindakan mtf on mtf.ID=trf.TARIF_ID
+			LEFT JOIN layanan.petugas_tindakan_medis lptm ON lptm.TINDAKAN_MEDIS = ltm.ID
+			LEFT JOIN master.dokter mdok ON lptm.MEDIS = mdok.ID AND lptm.JENIS in (1,2)
+			LEFT JOIN master.pegawai mpeg ON mpeg.NIP = mdok.NIP
+			LEFT JOIN master.referensi smf on mpeg.SMF=smf.ID and smf.JENIS ='26'
+			LEFT JOIN aplikasi.pengguna ustm ON ltm.OLEH=ustm.ID	
+			LEFT JOIN master.pegawai mpg ON ustm.NIP=mpg.NIP AND mpg.PROFESI=4
+			LEFT JOIN master.referensi smf2 on mpg.SMF=smf2.ID and smf2.JENIS ='26',
+			master.tindakan mtin,
+			pendaftaran.kunjungan pk
+			LEFT JOIN pendaftaran.pendaftaran pp ON pp.NOMOR = pk.NOPEN
+			LEFT JOIN layanan.pasien_pulang ppulang ON pk.NOMOR = ppulang.KUNJUNGAN AND ppulang.STATUS = 1
+			LEFT JOIN master.pasien mps ON mps.NORM = pp.NORM
+			LEFT JOIN master.referensi mref ON mps.JENIS_KELAMIN = mref.ID AND mref.JENIS = 2
+			LEFT JOIN master.ruangan mruang ON mruang.ID = pk.RUANGAN
+			LEFT JOIN master.ruangan ir ON ir.ID=LEFT(pk.RUANGAN,5) and ir.JENIS=3
+			LEFT JOIN pendaftaran.penjamin pj ON pj.NOPEN = pp.NOMOR
+			LEFT JOIN master.referensi mref2 ON pj.JENIS = mref2.ID AND mref2.JENIS = 10
+			LEFT JOIN pendaftaran.tujuan_pasien tp ON tp.NOPEN=pp.NOMOR
+			LEFT JOIN master.ruangan ma ON ma.ID=tp.RUANGAN
+			LEFT JOIN master.ruangan ins ON ins.ID=LEFT(tp.RUANGAN,5) and ins.JENIS=3
+			LEFT JOIN rsfMaster.mlokasi_ruangan miKunjungan ON miKunjungan.id = mruang.ID
+	WHERE   pk.STATUS     != 0 and
+			pk.MASUK      >= '2022-04-01' AND
+			pk.MASUK      <  '2023-01-01' AND
+			ltm.KUNJUNGAN   = pk.NOMOR AND
+			ltm.STATUS     != 0 and
+			mtin.ID         = ltm.TINDAKAN and
+			miKunjungan.id is not null and
+			IFNULL( mpeg.NIP, mpg.NIP) is not null
+	GROUP	BY  miKunjungan.dashboard_klp
+	
+------------------------------------------------------------------------------------------------ Rekap Rujukan
+
+SELECT		concat(header, ' ', KunjunganInstalasi) as Instalasi,
+			-- KunjunganRuang,
+			-- PendaftaranInstalasi,
+			-- PendaftaranRuang,
+			TOTAL,
+			BPJS,
+			BPJSNon as NON_BPJS,
+			Direct as direct,
+			DirectBPJS as direct_BPJS,
+			DirectBPJSNon as direct_NON_BPJS,
+			Indirect as indirect,
+			IndirectBPJS as indirect_BPJS,
+			IndirectBPJSNon as indirect_NON_BPJS,
+from		(
+				SELECT		max(miKunjungan.dashboard_klp) as KunjunganInstalasi,
+							'Kunjungan' as header,
+							1 as urutan,
+							-- max(mruang.DESKRIPSI) as KunjunganRuang,
+							-- max(ins.DESKRIPSI) as PendaftaranInstalasi,
+							-- max(ma.DESKRIPSI) as PendaftaranRuang,
+							sum(1) as TOTAL,
+							sum(if(pj.JENIS  = 2, 1, 0)) as BPJS,
+							sum(if(pj.JENIS != 2, 1, 0)) as BPJSNon,
+							sum(if(mruang.ID = ma.ID, 1, 0)) as Direct,
+							sum(if(mruang.ID = ma.ID AND pj.JENIS  = 2, 1, 0)) as DirectBPJS,
+							sum(if(mruang.ID = ma.ID AND pj.JENIS != 2, 1, 0)) as DirectBPJSNon,
+							sum(if(mruang.ID != ma.ID, 1, 0)) as Indirect,
+							sum(if(mruang.ID != ma.ID AND pj.JENIS  = 2, 1, 0)) as IndirectBPJS,
+							sum(if(mruang.ID != ma.ID AND pj.JENIS != 2, 1, 0)) as IndirectBPJSNon
+					FROM 	pendaftaran.kunjungan pk
+							LEFT JOIN pendaftaran.pendaftaran pp ON pp.NOMOR = pk.NOPEN
+							LEFT JOIN layanan.pasien_pulang ppulang ON pk.NOMOR = ppulang.KUNJUNGAN AND ppulang.STATUS = 1
+							LEFT JOIN master.pasien mps ON mps.NORM = pp.NORM
+							LEFT JOIN master.referensi mref ON mps.JENIS_KELAMIN = mref.ID AND mref.JENIS = 2
+							LEFT JOIN master.ruangan mruang ON mruang.ID = pk.RUANGAN
+							LEFT JOIN master.ruangan ir ON ir.ID=LEFT(pk.RUANGAN,5) and ir.JENIS=3
+							LEFT JOIN pendaftaran.penjamin pj ON pj.NOPEN = pp.NOMOR
+							LEFT JOIN master.referensi mref2 ON pj.JENIS = mref2.ID AND mref2.JENIS = 10
+							LEFT JOIN pendaftaran.tujuan_pasien tp ON tp.NOPEN=pp.NOMOR
+							LEFT JOIN master.ruangan ma ON ma.ID=tp.RUANGAN
+							LEFT JOIN master.ruangan ins ON ins.ID=LEFT(tp.RUANGAN,5) and ins.JENIS=3
+							LEFT JOIN rsfMaster.mlokasi_ruangan miKunjungan ON miKunjungan.id = mruang.ID
+					WHERE   pk.STATUS     != 0 and
+							pk.MASUK      >= '2022-04-01' AND
+							pk.MASUK      <  '2023-01-01' AND
+							miKunjungan.id is not null
+					GROUP	BY  miKunjungan.dashboard_klp
+				UNION ALL
+				SELECT		max(miKunjungan.dashboard_klp) as KunjunganInstalasi,
+							'Tindakan' as header,
+							3 as urutan,
+							-- max(mruang.DESKRIPSI) as KunjunganRuang,
+							-- max(ins.DESKRIPSI) as PendaftaranInstalasi,
+							-- max(ma.DESKRIPSI) as PendaftaranRuang,
+							sum(1) as TOTAL,
+							sum(if(pj.JENIS  = 2, 1, 0)) as BPJS,
+							sum(if(pj.JENIS != 2, 1, 0)) as BPJSNon,
+							sum(if(mruang.ID = ma.ID, 1, 0)) as Direct,
+							sum(if(mruang.ID = ma.ID AND pj.JENIS  = 2, 1, 0)) as DirectBPJS,
+							sum(if(mruang.ID = ma.ID AND pj.JENIS != 2, 1, 0)) as DirectBPJSNon,
+							sum(if(mruang.ID != ma.ID, 1, 0)) as Indirect,
+							sum(if(mruang.ID != ma.ID AND pj.JENIS  = 2, 1, 0)) as IndirectBPJS,
+							sum(if(mruang.ID != ma.ID AND pj.JENIS != 2, 1, 0)) as IndirectBPJSNon
+					FROM 	layanan.tindakan_medis ltm,
+							master.tindakan mtin,
+							pendaftaran.kunjungan pk
+							LEFT JOIN pendaftaran.pendaftaran pp ON pp.NOMOR = pk.NOPEN
+							LEFT JOIN layanan.pasien_pulang ppulang ON pk.NOMOR = ppulang.KUNJUNGAN AND ppulang.STATUS = 1
+							LEFT JOIN master.pasien mps ON mps.NORM = pp.NORM
+							LEFT JOIN master.referensi mref ON mps.JENIS_KELAMIN = mref.ID AND mref.JENIS = 2
+							LEFT JOIN master.ruangan mruang ON mruang.ID = pk.RUANGAN
+							LEFT JOIN master.ruangan ir ON ir.ID=LEFT(pk.RUANGAN,5) and ir.JENIS=3
+							LEFT JOIN pendaftaran.penjamin pj ON pj.NOPEN = pp.NOMOR
+							LEFT JOIN master.referensi mref2 ON pj.JENIS = mref2.ID AND mref2.JENIS = 10
+							LEFT JOIN pendaftaran.tujuan_pasien tp ON tp.NOPEN=pp.NOMOR
+							LEFT JOIN master.ruangan ma ON ma.ID=tp.RUANGAN
+							LEFT JOIN master.ruangan ins ON ins.ID=LEFT(tp.RUANGAN,5) and ins.JENIS=3
+							LEFT JOIN rsfMaster.mlokasi_ruangan miKunjungan ON miKunjungan.id = mruang.ID
+					WHERE   pk.STATUS      != 0 and
+							pk.MASUK       >= '2022-04-01' and
+							pk.MASUK        < '2023-01-01' and
+							ltm.KUNJUNGAN   = pk.NOMOR AND
+							ltm.STATUS     != 0 and
+							mtin.ID         = ltm.TINDAKAN
+					GROUP	BY  miKunjungan.dashboard_klp
+				UNION ALL
+				SELECT		max(miKunjungan.dashboard_klp) as KunjunganInstalasi,
+							'Hari Rawat' as header,
+							2 as urutan,
+							-- max(mruang.DESKRIPSI) as KunjunganRuang,
+							-- max(ins.DESKRIPSI) as PendaftaranInstalasi,
+							-- max(ma.DESKRIPSI) as PendaftaranRuang,
+							sum(IFNULL(DATEDIFF(IF(ppulang.TANGGAL > '2023-01-01','2023-01-01',ppulang.TANGGAL),pk.MASUK) + 1,0)) as TOTAL,
+							sum(if(pj.JENIS  = 2, IFNULL(DATEDIFF(IF(ppulang.TANGGAL > '2023-01-01','2023-01-01',ppulang.TANGGAL),pk.MASUK) + 1,0), 0)) as BPJS,
+							sum(if(pj.JENIS != 2, IFNULL(DATEDIFF(IF(ppulang.TANGGAL > '2023-01-01','2023-01-01',ppulang.TANGGAL),pk.MASUK) + 1,0), 0)) as BPJSNon,
+							sum(if(mruang.ID = ma.ID, IFNULL(DATEDIFF(IF(ppulang.TANGGAL > '2023-01-01','2023-01-01',ppulang.TANGGAL),pk.MASUK) + 1,0), 0)) as Direct,
+							sum(if(mruang.ID = ma.ID AND pj.JENIS  = 2, IFNULL(DATEDIFF(IF(ppulang.TANGGAL > '2023-01-01','2023-01-01',ppulang.TANGGAL),pk.MASUK) + 1,0), 0)) as DirectBPJS,
+							sum(if(mruang.ID = ma.ID AND pj.JENIS != 2, IFNULL(DATEDIFF(IF(ppulang.TANGGAL > '2023-01-01','2023-01-01',ppulang.TANGGAL),pk.MASUK) + 1,0), 0)) as DirectBPJSNon,
+							sum(if(mruang.ID != ma.ID, IFNULL(DATEDIFF(IF(ppulang.TANGGAL > '2023-01-01','2023-01-01',ppulang.TANGGAL),pk.MASUK) + 1,0), 0)) as Indirect,
+							sum(if(mruang.ID != ma.ID AND pj.JENIS  = 2, IFNULL(DATEDIFF(IF(ppulang.TANGGAL > '2023-01-01','2023-01-01',ppulang.TANGGAL),pk.MASUK) + 1,0), 0)) as IndirectBPJS,
+							sum(if(mruang.ID != ma.ID AND pj.JENIS != 2, IFNULL(DATEDIFF(IF(ppulang.TANGGAL > '2023-01-01','2023-01-01',ppulang.TANGGAL),pk.MASUK) + 1,0), 0)) as IndirectBPJSNon
+					FROM 	pendaftaran.kunjungan pk
+							LEFT JOIN pendaftaran.pendaftaran pp ON pp.NOMOR = pk.NOPEN
+							LEFT JOIN layanan.pasien_pulang ppulang ON pk.NOMOR = ppulang.KUNJUNGAN AND ppulang.STATUS = 1
+							LEFT JOIN master.pasien mps ON mps.NORM = pp.NORM
+							LEFT JOIN master.referensi mref ON mps.JENIS_KELAMIN = mref.ID AND mref.JENIS = 2
+							LEFT JOIN master.ruangan mruang ON mruang.ID = pk.RUANGAN
+							LEFT JOIN master.ruangan ir ON ir.ID=LEFT(pk.RUANGAN,5) and ir.JENIS=3
+							LEFT JOIN pendaftaran.penjamin pj ON pj.NOPEN = pp.NOMOR
+							LEFT JOIN master.referensi mref2 ON pj.JENIS = mref2.ID AND mref2.JENIS = 10
+							LEFT JOIN pendaftaran.tujuan_pasien tp ON tp.NOPEN=pp.NOMOR
+							LEFT JOIN master.ruangan ma ON ma.ID=tp.RUANGAN
+							LEFT JOIN master.ruangan ins ON ins.ID=LEFT(tp.RUANGAN,5) and ins.JENIS=3
+							LEFT JOIN rsfMaster.mlokasi_ruangan miKunjungan ON miKunjungan.id = mruang.ID
+					WHERE   pk.STATUS     != 0 and
+							pk.MASUK      >= '2022-04-01' AND
+							pk.MASUK      <  '2023-01-01' AND
+							(  	miKunjungan.dashboard_klp = 'RI Instalasi Rawat Inap' or
+								miKunjungan.dashboard_klp = 'RI ICU' or
+								miKunjungan.dashboard_klp = 'RI NICU/PICU' or
+								miKunjungan.dashboard_klp = 'RI ICCU' )
+					GROUP	BY  miKunjungan.dashboard_klp
+				UNION ALL
+				SELECT		max(miKunjungan.dashboard_klp) as KunjunganInstalasi,
+							'Operasi' as header,
+							4 as urutan,
+							-- max(mruang.DESKRIPSI) as KunjunganRuang,
+							-- max(ins.DESKRIPSI) as PendaftaranInstalasi,
+							-- max(ma.DESKRIPSI) as PendaftaranRuang,
+							sum(1) as TOTAL,
+							sum(if(pj.JENIS  = 2, 1, 0)) as BPJS,
+							sum(if(pj.JENIS != 2, 1, 0)) as BPJSNon,
+							sum(if(mruang.ID = ma.ID, 1, 0)) as Direct,
+							sum(if(mruang.ID = ma.ID AND pj.JENIS  = 2, 1, 0)) as DirectBPJS,
+							sum(if(mruang.ID = ma.ID AND pj.JENIS != 2, 1, 0)) as DirectBPJSNon,
+							sum(if(mruang.ID != ma.ID, 1, 0)) as Indirect,
+							sum(if(mruang.ID != ma.ID AND pj.JENIS  = 2, 1, 0)) as IndirectBPJS,
+							sum(if(mruang.ID != ma.ID AND pj.JENIS != 2, 1, 0)) as IndirectBPJSNon
+					FROM 	layanan.tindakan_medis ltm,
+							master.tindakan mtin,
+							pendaftaran.kunjungan pk
+							LEFT JOIN pendaftaran.pendaftaran pp ON pp.NOMOR = pk.NOPEN
+							LEFT JOIN layanan.pasien_pulang ppulang ON pk.NOMOR = ppulang.KUNJUNGAN AND ppulang.STATUS = 1
+							LEFT JOIN master.pasien mps ON mps.NORM = pp.NORM
+							LEFT JOIN master.referensi mref ON mps.JENIS_KELAMIN = mref.ID AND mref.JENIS = 2
+							LEFT JOIN master.ruangan mruang ON mruang.ID = pk.RUANGAN
+							LEFT JOIN master.ruangan ir ON ir.ID=LEFT(pk.RUANGAN,5) and ir.JENIS=3
+							LEFT JOIN pendaftaran.penjamin pj ON pj.NOPEN = pp.NOMOR
+							LEFT JOIN master.referensi mref2 ON pj.JENIS = mref2.ID AND mref2.JENIS = 10
+							LEFT JOIN pendaftaran.tujuan_pasien tp ON tp.NOPEN=pp.NOMOR
+							LEFT JOIN master.ruangan ma ON ma.ID=tp.RUANGAN
+							LEFT JOIN master.ruangan ins ON ins.ID=LEFT(tp.RUANGAN,5) and ins.JENIS=3
+							LEFT JOIN rsfMaster.mlokasi_ruangan miKunjungan ON miKunjungan.id = mruang.ID
+					WHERE   pk.STATUS      != 0 and
+							pk.MASUK       >= '2022-04-01' and
+							pk.MASUK        < '2023-01-01' and
+							(	pk.RUANGAN	= '101260101' or
+								pk.RUANGAN 	= '101550101' OR
+								pk.RUANGAN 	= '101550102' OR
+								pk.RUANGAN 	= '101550103' ) AND
+							ltm.KUNJUNGAN   = pk.NOMOR AND
+							ltm.STATUS     != 0 and
+							mtin.ID         = ltm.TINDAKAN and 
+							mtin.jenis      = 2
+					GROUP	BY  miKunjungan.dashboard_klp
+			) subquery
+	order   by  subquery.KunjunganInstalasi,
+				subquery.urutan
+
+------------------------------------------------------------------------------------------------ DETAIL METODA PERHITUNGAN HAPER & DIRECT /INDIRECT
+
+SELECT		ir.DESKRIPSI as KunjunganInstalasi,
+			mruang.DESKRIPSI as KunjunganRuang,
+			ins.DESKRIPSI as PendaftaranInstalasi,
+			ma.DESKRIPSI as PendaftaranRuang,
+			DATE_FORMAT(pk.MASUK,'%d/%m/%Y') as PendaftaranTglMasuk,
+			DATE_FORMAT(ppulang.TANGGAL,'%d/%m/%Y') as PendaftaranTglPulang,
+			IFNULL(DATEDIFF(IF(ppulang.TANGGAL > '2024-01-03','2023-01-03',ppulang.TANGGAL),pk.MASUK) + 1,0) as haper,
+			if(pj.JENIS  = 2, IFNULL(DATEDIFF(IF(ppulang.TANGGAL > '2024-01-03','2023-01-03',ppulang.TANGGAL),pk.MASUK) + 1,0), 0) as haper_BPJS,
+			if(pj.JENIS != 2, IFNULL(DATEDIFF(IF(ppulang.TANGGAL > '2024-01-03','2023-01-03',ppulang.TANGGAL),pk.MASUK) + 1,0), 0) as haper_BPJSNon,
+			1 as Kunjungan,
+			if(mruang.ID = ma.ID, 1, 0) as Kunj_Direct,
+			if(mruang.ID = ma.ID AND pj.JENIS  = 2, 1, 0) as Kunj_DirectBPJS,
+			if(mruang.ID = ma.ID AND pj.JENIS != 2, 1, 0) as Kunj_DirectBPJSNon,
+			if(mruang.ID != ma.ID, 1, 0) as Kunj_Indirect,
+			if(mruang.ID != ma.ID AND pj.JENIS  = 2, 1, 0) as Kunj_IndirectBPJS,
+			if(mruang.ID != ma.ID AND pj.JENIS != 2, 1, 0) as Kunj_IndirectBPJSNon,
+			-- ma.DESKRIPSI as PendaftaranRuang,
+			pp.NOMOR as NomorPendaftaran,
+			pj.NOMOR as NomorSEP,
+			pp.NORM as PasienRM,
+			mps.NAMA as PasienNama,
+			-- mps.JENIS_KELAMIN as PasienJenisKelamin,
+			mref.DESKRIPSI as PasienJenisKelaminDesc,
+			DATE_FORMAT(mps.TANGGAL_LAHIR,'%d/%m/%Y') as PasienTglLahir,
+			DATE_FORMAT(pk.MASUK,'%d/%m/%Y %H:%i') as KunjunganTanggalMasuk,
+			mref2.DESKRIPSI as PendaftaranCarabayar
+	FROM 	pendaftaran.kunjungan pk
+			LEFT JOIN pendaftaran.pendaftaran pp ON pp.NOMOR = pk.NOPEN
+			LEFT JOIN layanan.pasien_pulang ppulang ON pk.NOMOR = ppulang.KUNJUNGAN AND ppulang.STATUS = 1
+			LEFT JOIN master.pasien mps ON mps.NORM = pp.NORM
+			LEFT JOIN master.referensi mref ON mps.JENIS_KELAMIN = mref.ID AND mref.JENIS = 2
+			LEFT JOIN master.ruangan mruang ON mruang.ID = pk.RUANGAN
+			LEFT JOIN master.ruangan ir ON ir.ID=LEFT(pk.RUANGAN,5) and ir.JENIS=3
+			LEFT JOIN pendaftaran.penjamin pj ON pj.NOPEN = pp.NOMOR
+			LEFT JOIN master.referensi mref2 ON pj.JENIS = mref2.ID AND mref2.JENIS = 10
+			LEFT JOIN pendaftaran.tujuan_pasien tp ON tp.NOPEN=pp.NOMOR
+			LEFT JOIN master.ruangan ma ON ma.ID=tp.RUANGAN
+			LEFT JOIN master.ruangan ins ON ins.ID=LEFT(tp.RUANGAN,5) and ins.JENIS=3
+			LEFT JOIN rsfMaster.mlokasi_ruangan miKunjungan ON miKunjungan.id = mruang.ID
+	WHERE   pk.STATUS != 0 and
+            pk.MASUK >= '2023-01-02' and
+            pk.MASUK <  '2023-01-03' 
+
+------------------------------------------------------------------------------------------------ DETAIL RUANGAN
+
+				SELECT		'Kunjungan' as header,
+							max(miKunjungan.dashboard_klp) as KunjunganInstalasi,
+							max(mruang.DESKRIPSI) as KunjunganRuang,
+							-- max(ins.DESKRIPSI) as PendaftaranInstalasi,
+							-- max(ma.DESKRIPSI) as PendaftaranRuang,
+							sum(1) as TOTAL,
+							sum(if(pj.JENIS  = 2, 1, 0)) as BPJS,
+							sum(if(pj.JENIS != 2, 1, 0)) as BPJSNon,
+							sum(if(mruang.ID = ma.ID, 1, 0)) as Direct,
+							sum(if(mruang.ID = ma.ID AND pj.JENIS  = 2, 1, 0)) as DirectBPJS,
+							sum(if(mruang.ID = ma.ID AND pj.JENIS != 2, 1, 0)) as DirectBPJSNon,
+							sum(if(mruang.ID != ma.ID, 1, 0)) as Indirect,
+							sum(if(mruang.ID != ma.ID AND pj.JENIS  = 2, 1, 0)) as IndirectBPJS,
+							sum(if(mruang.ID != ma.ID AND pj.JENIS != 2, 1, 0)) as IndirectBPJSNon
+					FROM 	pendaftaran.kunjungan pk
+							LEFT JOIN pendaftaran.pendaftaran pp ON pp.NOMOR = pk.NOPEN
+							LEFT JOIN layanan.pasien_pulang ppulang ON pk.NOMOR = ppulang.KUNJUNGAN AND ppulang.STATUS = 1
+							LEFT JOIN master.pasien mps ON mps.NORM = pp.NORM
+							LEFT JOIN master.referensi mref ON mps.JENIS_KELAMIN = mref.ID AND mref.JENIS = 2
+							LEFT JOIN master.ruangan mruang ON mruang.ID = pk.RUANGAN
+							LEFT JOIN master.ruangan ir ON ir.ID=LEFT(pk.RUANGAN,5) and ir.JENIS=3
+							LEFT JOIN pendaftaran.penjamin pj ON pj.NOPEN = pp.NOMOR
+							LEFT JOIN master.referensi mref2 ON pj.JENIS = mref2.ID AND mref2.JENIS = 10
+							LEFT JOIN pendaftaran.tujuan_pasien tp ON tp.NOPEN=pp.NOMOR
+							LEFT JOIN master.ruangan ma ON ma.ID=tp.RUANGAN
+							LEFT JOIN master.ruangan ins ON ins.ID=LEFT(tp.RUANGAN,5) and ins.JENIS=3
+							LEFT JOIN rsfMaster.mlokasi_ruangan miKunjungan ON miKunjungan.id = mruang.ID
+					WHERE   pk.STATUS     != 0 and
+							pk.MASUK      >= '2022-04-01' AND
+							pk.MASUK      <  '2023-01-01' AND
+							miKunjungan.id is not null
+					GROUP	BY  miKunjungan.dashboard_klp, mruang.DESKRIPSI
+					ORDER	BY  miKunjungan.dashboard_klp, mruang.DESKRIPSI
+
+--------------------------- 
+
+SELECT 		max(AB.carabayar) as carabayar,
+			sum(1) as jumlah_resep
+	FROM 	(
+				SELECT 	max(P.no_resep) as no_resep,
+						max(P.pembayaran) as carabayar
+				FROM 	relasif_ketersediaan T
+						LEFT JOIN masterf_katalog K ON T.id_katalog = K.kode
+						LEFT JOIN masterf_kemasan S ON K.id_kemasankecil = S.id
+						LEFT JOIN masterf_depo D ON T.id_depo = D.id
+						LEFT JOIN masterf_penjualandetail P ON P.no_resep=T.kode_reff
+				WHERE 	T.status = '1' AND
+						T.kode_transaksi='R' and
+						T.`tgl_tersedia` >= '2022-01-01 00:00:00' AND 
+						T.`tgl_tersedia` < '2022-03-31 23:59:59' 
+				GROUP 	BY P.no_resep 
+			) AB
+	GROUP	BY  AB.carabayar
+
+---------------------------------------------------------------------
+--- RINCIAN ---
+
+SELECT		ltm.*,
+			(miKunjungan.dashboard_klp) as KunjunganInstalasi,
+			'Tindakan' as header,
+			-- max(mruang.DESKRIPSI) as KunjunganRuang,
+			-- max(ins.DESKRIPSI) as PendaftaranInstalasi,
+			-- max(ma.DESKRIPSI) as PendaftaranRuang,
+			(1) as TOTAL,
+			(if(pj.JENIS  = 2, 1, 0)) as BPJS,
+			(if(pj.JENIS != 2, 1, 0)) as BPJSNon,
+			(if(mruang.ID = ma.ID, 1, 0)) as Direct,
+			(if(mruang.ID = ma.ID AND pj.JENIS  = 2, 1, 0)) as DirectBPJS,
+			(if(mruang.ID = ma.ID AND pj.JENIS != 2, 1, 0)) as DirectBPJSNon,
+			(if(mruang.ID != ma.ID, 1, 0)) as Indirect,
+			(if(mruang.ID != ma.ID AND pj.JENIS  = 2, 1, 0)) as IndirectBPJS,
+			(if(mruang.ID != ma.ID AND pj.JENIS != 2, 1, 0)) as IndirectBPJSNon
+	FROM 	layanan.tindakan_medis ltm,
+			LEFT JOIN pembayaran.rincian_tagihan trf ON ltm.ID = trf.REF_ID and trf.JENIS=3 and trf.`STATUS` != 0
+			LEFT JOIN `master`.tarif_tindakan mtf on mtf.ID=trf.TARIF_ID
+			LEFT JOIN layanan.petugas_tindakan_medis lptm ON lptm.TINDAKAN_MEDIS = ltm.ID
+			LEFT JOIN master.dokter mdok ON lptm.MEDIS = mdok.ID AND lptm.JENIS in (1,2),
+			master.tindakan mtin,
+			pendaftaran.kunjungan pk
+			LEFT JOIN pendaftaran.pendaftaran pp ON pp.NOMOR = pk.NOPEN
+			LEFT JOIN layanan.pasien_pulang ppulang ON pk.NOMOR = ppulang.KUNJUNGAN AND ppulang.STATUS = 1
+			LEFT JOIN master.pasien mps ON mps.NORM = pp.NORM
+			LEFT JOIN master.referensi mref ON mps.JENIS_KELAMIN = mref.ID AND mref.JENIS = 2
+			LEFT JOIN master.ruangan mruang ON mruang.ID = pk.RUANGAN
+			LEFT JOIN master.ruangan ir ON ir.ID=LEFT(pk.RUANGAN,5) and ir.JENIS=3
+			LEFT JOIN pendaftaran.penjamin pj ON pj.NOPEN = pp.NOMOR
+			LEFT JOIN master.referensi mref2 ON pj.JENIS = mref2.ID AND mref2.JENIS = 10
+			LEFT JOIN pendaftaran.tujuan_pasien tp ON tp.NOPEN=pp.NOMOR
+			LEFT JOIN master.ruangan ma ON ma.ID=tp.RUANGAN
+			LEFT JOIN master.ruangan ins ON ins.ID=LEFT(tp.RUANGAN,5) and ins.JENIS=3
+			LEFT JOIN rsfMaster.mlokasi_ruangan miKunjungan ON miKunjungan.id = mruang.ID
+	WHERE   pk.STATUS      != 0 and
+			pk.MASUK       >= '2023-01-02' and
+			pk.MASUK        < '2023-01-03' and
+			ltm.KUNJUNGAN   = pk.NOMOR AND
+			ltm.STATUS     != 0 and
+			mtin.ID         = ltm.TINDAKAN
+
+
+
+
+
+
+
+
+-- rinci oerpasi
+SELECT		ltm.*,
+			mtin.*,
+			ir.DESKRIPSI as KunjunganInstalasi,
+			mruang.DESKRIPSI as KunjunganRuang,
+			ins.DESKRIPSI as PendaftaranInstalasi,
+			ma.DESKRIPSI as PendaftaranRuang,
+			DATE_FORMAT(pk.MASUK,'%d/%m/%Y') as PendaftaranTglMasuk,
+			DATE_FORMAT(ppulang.TANGGAL,'%d/%m/%Y') as PendaftaranTglPulang,
+			IFNULL(DATEDIFF(IF(ppulang.TANGGAL > '2023-01-03','2023-01-03',ppulang.TANGGAL),pk.MASUK) + 1,0) as haper,
+			if(pj.JENIS  = 2, IFNULL(DATEDIFF(IF(ppulang.TANGGAL > '2023-01-03','2023-01-03',ppulang.TANGGAL),pk.MASUK) + 1,0), 0) as haper_BPJS,
+			if(pj.JENIS != 2, IFNULL(DATEDIFF(IF(ppulang.TANGGAL > '2023-01-03','2023-01-03',ppulang.TANGGAL),pk.MASUK) + 1,0), 0) as haper_BPJSNon,
+			1 as Kunjungan,
+			if(mruang.ID = ma.ID, 1, 0) as Kunj_Direct,
+			if(mruang.ID = ma.ID AND pj.JENIS  = 2, 1, 0) as Kunj_DirectBPJS,
+			if(mruang.ID = ma.ID AND pj.JENIS != 2, 1, 0) as Kunj_DirectBPJSNon,
+			if(mruang.ID != ma.ID, 1, 0) as Kunj_Indirect,
+			if(mruang.ID != ma.ID AND pj.JENIS  = 2, 1, 0) as Kunj_IndirectBPJS,
+			if(mruang.ID != ma.ID AND pj.JENIS != 2, 1, 0) as Kunj_IndirectBPJSNon,
+			ma.DESKRIPSI as PendaftaranRuang,
+			pp.NOMOR as NomorPendaftaran,
+			pj.NOMOR as NomorSEP,
+			pp.NORM as PasienRM,
+			mps.NAMA as PasienNama,
+			mps.JENIS_KELAMIN as PasienJenisKelamin,
+			mref.DESKRIPSI as PasienJenisKelaminDesc,
+			DATE_FORMAT(mps.TANGGAL_LAHIR,'%d/%m/%Y') as PasienTglLahir,
+			DATE_FORMAT(pk.MASUK,'%d/%m/%Y %H:%i') as KunjunganTanggalMasuk,
+			mref2.DESKRIPSI as PendaftaranCarabayar
+	FROM 	layanan.tindakan_medis ltm,
+			master.tindakan mtin,
+			pendaftaran.kunjungan pk
+			LEFT JOIN pendaftaran.pendaftaran pp ON pp.NOMOR = pk.NOPEN
+			LEFT JOIN layanan.pasien_pulang ppulang ON pk.NOMOR = ppulang.KUNJUNGAN AND ppulang.STATUS = 1
+			LEFT JOIN master.pasien mps ON mps.NORM = pp.NORM
+			LEFT JOIN master.referensi mref ON mps.JENIS_KELAMIN = mref.ID AND mref.JENIS = 2
+			LEFT JOIN master.ruangan mruang ON mruang.ID = pk.RUANGAN
+			LEFT JOIN master.ruangan ir ON ir.ID=LEFT(pk.RUANGAN,5) and ir.JENIS=3
+			LEFT JOIN pendaftaran.penjamin pj ON pj.NOPEN = pp.NOMOR
+			LEFT JOIN master.referensi mref2 ON pj.JENIS = mref2.ID AND mref2.JENIS = 10
+			LEFT JOIN pendaftaran.tujuan_pasien tp ON tp.NOPEN=pp.NOMOR
+			LEFT JOIN master.ruangan ma ON ma.ID=tp.RUANGAN
+			LEFT JOIN master.ruangan ins ON ins.ID=LEFT(tp.RUANGAN,5) and ins.JENIS=3
+			LEFT JOIN rsfMaster.mlokasi_ruangan miKunjungan ON miKunjungan.id = mruang.ID
+	WHERE   pk.STATUS      != 0 and
+            pk.MASUK       >= '2023-01-02' and
+            pk.MASUK        <  '2023-01-03' and
+			(	pk.RUANGAN	= '101260101' or
+				pk.RUANGAN 	= '101550101' OR
+				pk.RUANGAN 	= '101550102' OR
+				pk.RUANGAN 	= '101550103' ) AND
+			ltm.KUNJUNGAN = pk.NOMOR AND
+			mtin.ID = ltm.TINDAKAN and mtin.jenis = 2
+
+--- rinci
+SELECT		ir.DESKRIPSI as KunjunganInstalasi,
+			mruang.DESKRIPSI as KunjunganRuang,
+			ins.DESKRIPSI as PendaftaranInstalasi,
+			ma.DESKRIPSI as PendaftaranRuang,
+			DATE_FORMAT(pk.MASUK,'%d/%m/%Y') as PendaftaranTglMasuk,
+			DATE_FORMAT(ppulang.TANGGAL,'%d/%m/%Y') as PendaftaranTglPulang,
+			IFNULL(DATEDIFF(IF(ppulang.TANGGAL > '2023-01-03','2023-01-03',ppulang.TANGGAL),pk.MASUK) + 1,0) as haper,
+			if(pj.JENIS  = 2, IFNULL(DATEDIFF(IF(ppulang.TANGGAL > '2023-01-03','2023-01-03',ppulang.TANGGAL),pk.MASUK) + 1,0), 0) as haper_BPJS,
+			if(pj.JENIS != 2, IFNULL(DATEDIFF(IF(ppulang.TANGGAL > '2023-01-03','2023-01-03',ppulang.TANGGAL),pk.MASUK) + 1,0), 0) as haper_BPJSNon,
+			1 as Kunjungan,
+			if(mruang.ID = ma.ID, 1, 0) as Kunj_Direct,
+			if(mruang.ID = ma.ID AND pj.JENIS  = 2, 1, 0) as Kunj_DirectBPJS,
+			if(mruang.ID = ma.ID AND pj.JENIS != 2, 1, 0) as Kunj_DirectBPJSNon,
+			if(mruang.ID != ma.ID, 1, 0) as Kunj_Indirect,
+			if(mruang.ID != ma.ID AND pj.JENIS  = 2, 1, 0) as Kunj_IndirectBPJS,
+			if(mruang.ID != ma.ID AND pj.JENIS != 2, 1, 0) as Kunj_IndirectBPJSNon,
+			ma.DESKRIPSI as PendaftaranRuang,
+			pp.NOMOR as NomorPendaftaran,
+			pj.NOMOR as NomorSEP,
+			pp.NORM as PasienRM,
+			mps.NAMA as PasienNama,
+			mps.JENIS_KELAMIN as PasienJenisKelamin,
+			mref.DESKRIPSI as PasienJenisKelaminDesc,
+			DATE_FORMAT(mps.TANGGAL_LAHIR,'%d/%m/%Y') as PasienTglLahir,
+			DATE_FORMAT(pk.MASUK,'%d/%m/%Y %H:%i') as KunjunganTanggalMasuk,
+			mref2.DESKRIPSI as PendaftaranCarabayar
+	FROM 	pendaftaran.kunjungan pk
+			LEFT JOIN pendaftaran.pendaftaran pp ON pp.NOMOR = pk.NOPEN
+			LEFT JOIN layanan.pasien_pulang ppulang ON pk.NOMOR = ppulang.KUNJUNGAN AND ppulang.STATUS = 1
+			LEFT JOIN master.pasien mps ON mps.NORM = pp.NORM
+			LEFT JOIN master.referensi mref ON mps.JENIS_KELAMIN = mref.ID AND mref.JENIS = 2
+			LEFT JOIN master.ruangan mruang ON mruang.ID = pk.RUANGAN
+			LEFT JOIN master.ruangan ir ON ir.ID=LEFT(pk.RUANGAN,5) and ir.JENIS=3
+			LEFT JOIN pendaftaran.penjamin pj ON pj.NOPEN = pp.NOMOR
+			LEFT JOIN master.referensi mref2 ON pj.JENIS = mref2.ID AND mref2.JENIS = 10
+			LEFT JOIN pendaftaran.tujuan_pasien tp ON tp.NOPEN=pp.NOMOR
+			LEFT JOIN master.ruangan ma ON ma.ID=tp.RUANGAN
+			LEFT JOIN master.ruangan ins ON ins.ID=LEFT(tp.RUANGAN,5) and ins.JENIS=3
+			LEFT JOIN rsfMaster.mlokasi_ruangan miKunjungan ON miKunjungan.id = mruang.ID
+	WHERE   pk.STATUS != 0 and
+            pk.MASUK >= '2023-01-02' and
+            pk.MASUK <  '2023-01-03' 
+
+SELECT		mruang.ID,
+			ir.DESKRIPSI as KunjunganInstalasi,
+			mruang.DESKRIPSI as KunjunganRuang,
+			ins.DESKRIPSI as PendaftaranInstalasi,
+			ma.DESKRIPSI as PendaftaranRuang,
+			DATE_FORMAT(pk.MASUK,'%d/%m/%Y') as PendaftaranTglMasuk,
+			DATE_FORMAT(ppulang.TANGGAL,'%d/%m/%Y') as PendaftaranTglPulang,
+			1 as Kunjungan,
+			if(mruang.ID = ma.ID, 1, 0) as Kunj_Direct,
+			if(mruang.ID = ma.ID AND pj.JENIS  = 2, 1, 0) as Kunj_DirectBPJS,
+			if(mruang.ID = ma.ID AND pj.JENIS != 2, 1, 0) as Kunj_DirectBPJSNon,
+			if(mruang.ID != ma.ID, 1, 0) as Kunj_Indirect,
+			if(mruang.ID != ma.ID AND pj.JENIS  = 2, 1, 0) as Kunj_IndirectBPJS,
+			if(mruang.ID != ma.ID AND pj.JENIS != 2, 1, 0) as Kunj_IndirectBPJSNon,
+			ma.DESKRIPSI as PendaftaranRuang,
+			pp.NOMOR as NomorPendaftaran,
+			pj.NOMOR as NomorSEP,
+			pp.NORM as PasienRM,
+			mps.NAMA as PasienNama,
+			mps.JENIS_KELAMIN as PasienJenisKelamin,
+			mref.DESKRIPSI as PasienJenisKelaminDesc,
+			DATE_FORMAT(mps.TANGGAL_LAHIR,'%d/%m/%Y') as PasienTglLahir,
+			DATE_FORMAT(pk.MASUK,'%d/%m/%Y %H:%i') as KunjunganTanggalMasuk,
+			mref2.DESKRIPSI as PendaftaranCarabayar
+	FROM 	pendaftaran.kunjungan pk
+			LEFT JOIN pendaftaran.pendaftaran pp ON pp.NOMOR = pk.NOPEN
+			LEFT JOIN layanan.pasien_pulang ppulang ON pk.NOMOR = ppulang.KUNJUNGAN AND ppulang.STATUS = 1
+			LEFT JOIN master.pasien mps ON mps.NORM = pp.NORM
+			LEFT JOIN master.referensi mref ON mps.JENIS_KELAMIN = mref.ID AND mref.JENIS = 2
+			LEFT JOIN master.ruangan mruang ON mruang.ID = pk.RUANGAN
+			LEFT JOIN master.ruangan ir ON ir.ID=LEFT(pk.RUANGAN,5) and ir.JENIS=3
+			LEFT JOIN pendaftaran.penjamin pj ON pj.NOPEN = pp.NOMOR
+			LEFT JOIN master.referensi mref2 ON pj.JENIS = mref2.ID AND mref2.JENIS = 10
+			LEFT JOIN pendaftaran.tujuan_pasien tp ON tp.NOPEN=pp.NOMOR
+			LEFT JOIN master.ruangan ma ON ma.ID=tp.RUANGAN
+			LEFT JOIN master.ruangan ins ON ins.ID=LEFT(tp.RUANGAN,5) and ins.JENIS=3
+			LEFT JOIN rsfMaster.mlokasi_ruangan miKunjungan ON miKunjungan.id = mruang.ID
+	WHERE   pk.STATUS != 0 and
+            pk.MASUK >= '2022-04-01' and
+            pk.MASUK <  '2023-01-01' and
+			miKunjungan.dashboard_klp is null
+
+------------------------------------------------------------------------------------------------
+ELECT
+max(AB.pembayaran) CARABAYAR,
+SUM(1) JML
+
+
+SELECT max(AB.carabayar) as carabayar,
+sum(1) as jumlah_resep
+FROM (
+SELECT max(P.no_resep) as no_resep,
+max(P.pembayaran) as carabayar
+FROM relasif_ketersediaan T
+LEFT JOIN masterf_katalog K ON T.id_katalog = K.kode
+LEFT JOIN masterf_kemasan S ON K.id_kemasankecil = S.id
+LEFT JOIN masterf_depo D ON T.id_depo = D.id
+LEFT JOIN masterf_penjualandetail P ON P.no_resep=T.kode_reff
+WHERE 	T.status = '1' AND
+T.kode_transaksi='R' and
+T.`tgl_tersedia` >= '2022-01-01 00:00:00' AND 
+T.`tgl_tersedia` < '2022-03-31 23:59:59' 
+GROUP 	BY P.no_resep 
+) AB
+GROUP	BY  AB.carabayar
+
+
+
+------------------------------------------------------------------------------------------------
+
+truncate table rsfMaster.mlokasi_ruangan;
+insert into rsfMaster.mlokasi_ruangan
+			(	id, jenis, jenis_kunjungan, ref_id,
+				deskripsi, status, dashboard_klp,
+				dashboard_hitung, dashboard_nickname )
+select 		r.id, r.jenis, r.jenis_kunjungan, r.ref_id, r.deskripsi, r.status,
+			ir.DESKRIPSI as dashboard_klp, 1 as dashboard_hitung, '' as dashboard_nickname
+	from	master.ruangan r
+			LEFT JOIN master.ruangan ir ON ir.ID=LEFT(r.ID,5) and ir.JENIS=3
+	where 	r.JENIS = 5 AND r.JENIS_KUNJUNGAN != 0;
+
+101030111
+
+select * from rsfMaster.mlokasi_ruangan
+select * from rsfMaster.mlokasi_ruangan where dashboard_klp = 'RI Instalasi Rawat Inap'
+'RI ICU'
+'RI NICU/PICU'
+'RI ICCU'
+
+update rsfMaster.mlokasi_ruangan set dashboard_klp = 'RI NICU/PICU' where deskripsi = 'IRI Lt 3 - NICU';
+update rsfMaster.mlokasi_ruangan set dashboard_klp = 'RI NICU/PICU' where deskripsi = 'IRI Lt 3 - NICU Venti';
+update rsfMaster.mlokasi_ruangan set dashboard_klp = 'RI NICU/PICU' where deskripsi = 'IRI Lt 3 - NICU Non Venti';
+update rsfMaster.mlokasi_ruangan set dashboard_klp = 'Instalasi Rawat Inap' where deskripsi = 'IRI Lt 3 - HCU Anak';
+update rsfMaster.mlokasi_ruangan set dashboard_klp = 'RI ICU' where deskripsi = 'IRI  Lt 4  - ICU';
+update rsfMaster.mlokasi_ruangan set dashboard_klp = 'Instalasi Rawat Inap' where deskripsi = 'IRI  Lt 3 - HCU,R.Boarding Kebid';
+update rsfMaster.mlokasi_ruangan set dashboard_klp = 'RI NICU/PICU' where deskripsi = 'IRI  Lt 3  - PICU';
+update rsfMaster.mlokasi_ruangan set dashboard_klp = 'Instalasi Rawat Inap' where deskripsi = 'IRI  Lt 2 - HCU Bedah';
+update rsfMaster.mlokasi_ruangan set dashboard_klp = 'RI ICCU' where deskripsi = 'IRI  Lt 2  - ICCU';
+update rsfMaster.mlokasi_ruangan set dashboard_klp = 'Instalasi Rawat Inap' where deskripsi = 'HCU IGD - Lt 1';
+update rsfMaster.mlokasi_ruangan set dashboard_klp = 'Instalasi Rawat Inap' where deskripsi = 'HCU IGD - Lt 2';
+update rsfMaster.mlokasi_ruangan set dashboard_klp = 'Instalasi Rawat Inap' where deskripsi = 'Anggrek 5 HCU Bedah Zona 3';
+update rsfMaster.mlokasi_ruangan set dashboard_klp = 'Instalasi Rawat Inap' where deskripsi = 'Anggrek 5 - HCU Zona 1';
+update rsfMaster.mlokasi_ruangan set dashboard_klp = 'Instalasi Rawat Inap' where deskripsi = 'Anggrek 4 Isolasi Tekanan Negatif';
+update rsfMaster.mlokasi_ruangan set dashboard_klp = 'RI NICU/PICU' where deskripsi = 'Anggrek 6 (PICU Tkn Neg Dgn Venti)';
+update rsfMaster.mlokasi_ruangan set dashboard_klp = 'RI NICU/PICU' where deskripsi = 'Anggrek 6 (NICU Tkn Neg Tnp Venti)';
+update rsfMaster.mlokasi_ruangan set dashboard_klp = 'RI ICU' where deskripsi = 'Anggrek 6 (ICU Tkn Neg Tnp Venti)';
+update rsfMaster.mlokasi_ruangan set dashboard_klp = 'RI ICU' where deskripsi = 'Anggrek 6 (ICU Tkn Neg Dgn Venti)';
+
+update rsfMaster.mlokasi_ruangan set dashboard_klp = 'RI Instalasi Rawat Inap' where dashboard_klp = 'Instalasi Rawat Inap';
+update rsfMaster.mlokasi_ruangan set dashboard_klp = 'RJ Instalasi Rawat Jalan' where deskripsi = 'Ambulance';
+update rsfMaster.mlokasi_ruangan set dashboard_klp = 'RJ Instalasi Rawat Jalan' where deskripsi = 'Ambulance Jenazah';
+update rsfMaster.mlokasi_ruangan set dashboard_klp = 'RJ Instalasi Rawat Jalan' where deskripsi = 'Cath Lab';
+update rsfMaster.mlokasi_ruangan set dashboard_klp = 'RJ Instalasi Rawat Jalan' where deskripsi = 'Forensik Pemulasaran Jenazah';
+update rsfMaster.mlokasi_ruangan set dashboard_klp = 'RJ Instalasi Rawat Jalan' where deskripsi = 'Hemodialisa';
+
+update rsfMaster.mlokasi_ruangan set dashboard_klp = 'RI Instalasi Rawat Inap' where dashboard_klp = 'Instalasi Rawat Inap';
+update rsfMaster.mlokasi_ruangan set dashboard_klp = 'RJ Instalasi Rawat Jalan' where dashboard_klp = 'Instalasi Griya Husada';
+update rsfMaster.mlokasi_ruangan set dashboard_klp = 'RJ Instalasi Rawat Jalan' where dashboard_klp = 'Instalasi Rawat Jalan';
+select * from rsfMaster.mlokasi_ruangan where dashboard_klp = 'PMI / LABU DARAH';
+select * from rsfMaster.mlokasi_ruangan where dashboard_klp = 'Instalasi Laboratorium';
+select * from rsfMaster.mlokasi_ruangan where dashboard_klp = 'Unit Kardiovasculer Intervensi';
+update rsfMaster.mlokasi_ruangan set dashboard_klp = 'Instalasi Laboratorium' where dashboard_klp = 'PMI / LABU DARAH';
+update rsfMaster.mlokasi_ruangan set dashboard_klp = 'RJ Instalasi Rawat Jalan' where dashboard_klp = 'Unit Kardiovasculer Intervensi';
+
+
+select * from rsfMaster.mlokasi_ruangan where deskripsi = 'Gudang Farmasi';
+select * from rsfMaster.mlokasi_ruangan where dashboard_klp = 'Gudang Farmasi';
+select * from rsfMaster.mlokasi_ruangan where dashboard_klp = 'FORENSIK PEMULASARAN JENAZAH';
+select * from rsfMaster.mlokasi_ruangan where dashboard_klp = 'Bougenville MCU';
+select * from rsfMaster.mlokasi_ruangan where dashboard_klp = 'Khemoterapi';
+
+update rsfMaster.mlokasi_ruangan set dashboard_klp = 'RJ Instalasi Rawat Jalan' where deskripsi = 'Khemoterapi';
+update rsfMaster.mlokasi_ruangan set dashboard_klp = 'RJ Instalasi Rawat Jalan' where deskripsi = 'FORENSIK PEMULASARAN JENAZAH';
+update rsfMaster.mlokasi_ruangan set dashboard_klp = 'RJ Instalasi Rawat Jalan' where deskripsi = 'Bougenville MCU';
+
+update rsfMaster.mlokasi_ruangan set dashboard_klp = 'RJ Instalasi Rawat Jalan' where dashboard_klp = 'Khemoterapi';
+update rsfMaster.mlokasi_ruangan set dashboard_klp = 'RJ Instalasi Rawat Jalan' where dashboard_klp = 'FORENSIK PEMULASARAN JENAZAH';
+update rsfMaster.mlokasi_ruangan set dashboard_klp = 'RJ Instalasi Rawat Jalan' where dashboard_klp = 'Bougenville MCU';

@@ -1,0 +1,50 @@
+log Kegiatan
+----------------------------
+5 September 2022
+- diskusi status di programmer
+- diskusi ke radiologi tentang penjadwalan
+  - request radiologi dari simgos ditampung menjadi penjadwalan
+  - penjadwalan dengan quota per group pemeriksaan dengan fleksibel quota dari group
+  - penjadwalan dengan quota per supergroup
+  - penjadwalan pemeriksaan tanpa quota
+  - setelah dijadwalkan, baru muncul daftarnya di simgos
+
+6 September 2022
+- diskusi farmasi persiapan so :
+  - so doble entry
+  - so tgl 25 & akhir bulan
+  - obat iterasi (rawat jalan)
+  - laporan2 hasil so
+  - order obat untuk jadwal operasi
+  - koreksi stok
+  - permasalahan final so dan un-final so di simgos
+- setting development
+  - database mysql
+  - struktur sencha
+
+12 September
+- diskusi dengan akuntasi dan farmasi :
+  - top-urgent untuk mengetahui stok persediaan farmasi saat ini secara real
+  - request format persediaan farmasi dari akuntansi
+- diskusi internal isirs mengenai struktur/tracking tabel transaksi
+
+13 September
+- Desain proses audit trail dalam rangka membuat laporan persediaan yang 
+  - real time
+  - konsisten
+
+14 September
+- Membuat tabel & proses pembentukan data dasar laporan persediaan (fokus jumlah)
+  yaitu jumlah barang yang keluar masuk dari masing2 depo/unit/ruangan
+- Untuk fokus harga persediaan, dan expired, akan di desain saat membahas tentang
+  penerimaan barang farmasi
+
+next
+- pembentukan laporan persediaan dari data dasar yang sudah terbentuk,
+  dengan mapping jenis transaksi ke kolom-kolom laporan persediaan
+- sop pembentukan untuk keperluan auditrail di kemudian hari :
+  - proses
+  - backup db
+  - proses ulang yang harus sama dengan proses sebelum backup,
+    untuk memastikan bahwa backupDb sudah mengCapture transaksi detail laporan persediaan
+

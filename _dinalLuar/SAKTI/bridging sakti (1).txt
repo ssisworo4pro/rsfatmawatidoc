@@ -1,0 +1,28 @@
+Skema :
+
+A. koneksi internal :
+	1. koneksi modul penerimaan tim (rsupf) dan voucher (fatmahost)
+	2. koneksi modul penerimaan tim (rsupf) dan penerimaan gudang (persediaan SIMRSGOS)
+
+B. koneksi sakti :
+	1. data komitmen
+		a. eksisting  
+			modul penerimaan tim yang sudah terbayar di voucher (proses manual oleh 											akuntansi) atau modul voucher yang sudah terbayar
+		b. akan datang
+			1. modul penerimaan tim 
+			2. modul voucher (saat akan dibayar mereferensi kepada modul penerimaan tim yang 								   datanya sudah dikirim)
+			catatan :
+				kemungkinan kasus untuk perubahan data saat barang tsb diterima oleh tim hingga barang tsb 					dibayarkan di voucher
+			
+	2. persediaan
+		a. barang masuk
+			- eksisting  
+				modul penerimaan tim yang sudah terbayar di voucher (proses manual oleh 										akuntansi) atau modul voucher yang sudah terbayar. ditambah dengan barang penerimaan non 					pembelian
+		b. barang keluar
+			seluruh transaksi pengeluaran
+
+C. persiapan data koneksi:
+	1. mapping master barang dari sakti
+	2. mapping kode dipa anggaran dari sakti
+
+

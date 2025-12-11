@@ -1,0 +1,41 @@
+PERSIAPAN DATA SAKTI
+------------------------------------------
+A. TARGET SURABAYA
+	1. sumber data
+	   berbicara mengenai simulasi proses pembentukan data
+	   dan proses pengiriman data (semi real transaksi).
+
+	   penggabungan data dari 3 modul, yaitu : 
+	   a. voucher, 
+	   b. team penerima, 
+	   c. transaksi depo
+
+	   untuk data yang diambil adalah data sbb :
+	   a. komitmen (pembelian yang sudah terima dan proses voucher)
+	   b. barang masuk (rincian penerimaan barang team penerima, nyambung sama poin a)
+	   c. barang keluar (rincian transaksi di farmasi yang barangnya = barang poin b)
+
+	2. proses alur kerja
+	   a. pengambilan sumber data transaksi
+	   b. mapping master
+		  - master barang fatmawati vs barang versi departement keuangan
+		  - master dipa
+		  - segment 16 / cons item
+	   c. extract data ke file csv
+
+	3. mohon saran, data yang akan dikeluarkan
+
+	4. pembahasan detil trasaksi sesuai format csv
+
+B. TARGET SETELAH SURABAYA
+	5. next target / isu permasalahan :
+	   - tidak ada angka desimal belakang koma / pembulatan
+	   - tidak ada pembatalan transaksi
+	   - real transaksi
+	   - catatan : untuk dikumpulkan seluruh isu2 yang ada selama di surabaya
+
+QUERY DATA DASAR
+------------------------------------------
+1.  Data Pembelin yang sudah di proses pembayaran
+	select * from db_fatmahost.keu_trx_voucher ktv order by id_trx_voucher desc limit 100
+	select * from rsupf.transaksif_pembelian tp where no_doc = 'KN.01.03/VIII.6/5448/2022' order by kode desc limit 100;

@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.11.0.final using JasperReports Library version 6.11.0-0c4056ccaa4d25a5a8c45672d2f764ea3498bebb  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="LaporanKatalogAkhirRekap" language="groovy" pageWidth="800" pageHeight="612" orientation="Landscape" columnWidth="760" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ab5ab1d0-47e1-4fff-a560-31a70cb5e660">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="simrsgos_live"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.report.description" value=""/>
+	<style name="Style1" mode="Opaque" backcolor="#3BD8FF"/>
+	<parameter name="TGLAWAL" class="java.lang.String"/>
+	<parameter name="TGLAKHIR" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[CALL rsfPelaporan.LaporanKatalogAkhirFIFO($P{TGLAWAL},$P{TGLAKHIR})]]>
+	</queryString>
+	<field name="nama_depo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nama_depo"/>
+	</field>
+	<field name="tanggal" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="tanggal"/>
+	</field>
+	<field name="kelompok" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="kelompok"/>
+	</field>
+	<field name="kode_barang" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="kode_barang"/>
+	</field>
+	<field name="nama_barang" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nama_barang"/>
+	</field>
+	<field name="pabrik" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="pabrik"/>
+	</field>
+	<field name="satuan" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="satuan"/>
+	</field>
+	<field name="tgl_expired" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.label" value="tgl_expired"/>
+	</field>
+	<field name="jumlah_fisik" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="jumlah_fisik"/>
+	</field>
+	<field name="harga_pokok" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="harga_pokok"/>
+	</field>
+	<field name="nilai" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="nilai"/>
+	</field>
+	<variable name="vtotalstok" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{jumlah_fisik}]]></variableExpression>
+	</variable>
+	<variable name="vhargapokok" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{harga_pokok}]]></variableExpression>
+	</variable>
+	<variable name="vnilai" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{nilai}]]></variableExpression>
+	</variable>
+	<variable name="v_nilai" class="java.math.BigDecimal" resetType="Group" resetGroup="depo" calculation="Sum">
+		<variableExpression><![CDATA[$F{nilai}]]></variableExpression>
+	</variable>
+	<variable name="v_jumlah" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{nilai}]]></variableExpression>
+	</variable>
+	<variable name="NOURUT1" class="java.lang.Integer" incrementType="Group" incrementGroup="depo" calculation="Count">
+		<variableExpression><![CDATA[1]]></variableExpression>
+	</variable>
+	<variable name="Variable_1" class="java.lang.String"/>
+	<group name="depo" keepTogether="true">
+		<groupExpression><![CDATA[$F{kelompok}]]></groupExpression>
+		<groupHeader>
+			<band/>
+			<band/>
+		</groupHeader>
+		<groupFooter>
+			<band height="15">
+				<textField pattern="#,##0.00" isBlankWhenNull="true">
+					<reportElement x="620" y="0" width="140" height="15" uuid="05565f9b-38b1-43e7-84c4-7d64f954ed69"/>
+					<box>
+						<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$V{v_nilai}]]></textFieldExpression>
+				</textField>
+				<textField textAdjust="ScaleFont" isBlankWhenNull="true">
+					<reportElement x="30" y="0" width="590" height="15" uuid="240af0b6-c271-4c2e-8290-06c5889095db">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="29d4b24e-fcd1-44fa-b184-1d54ef8e8585"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					</reportElement>
+					<box>
+						<pen lineWidth="0.75" lineStyle="Solid"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Arial Black" size="10"/>
+						<paragraph leftIndent="2"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{kelompok}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="0" y="0" width="30" height="15" uuid="120605a3-9f90-4e15-bef4-aafaa9aee6c6"/>
+					<box leftPadding="0">
+						<pen lineWidth="0.75"/>
+					</box>
+					<textElement textAlignment="Center"/>
+					<textFieldExpression><![CDATA[$V{NOURUT1}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<title>
+		<band height="73">
+			<staticText>
+				<reportElement x="0" y="0" width="760" height="30" uuid="b8d8bb03-9c3d-4f6e-ab8c-3783b95ea968"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[LAPORAN REKAPITULASI PERSEDIAAN AKHIR FIFO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="310" y="25" width="140" height="20" uuid="63e7920c-7fcb-426d-89e6-ad546f00681e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TAHUN 2023]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Style1" x="30" y="58" width="590" height="15" backcolor="#3BD8FF" uuid="0d98e5f4-85ef-42a3-8e15-5d4e890ed2fc">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="29d4b24e-fcd1-44fa-b184-1d54ef8e8585"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Kelompok Barang]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Style1" x="620" y="58" width="140" height="15" backcolor="#3BD8FF" uuid="a86f7fd8-1299-41d8-9488-3f3dfd40f35f">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="29d4b24e-fcd1-44fa-b184-1d54ef8e8585"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Nilai]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Style1" x="0" y="58" width="30" height="15" backcolor="#3BD8FF" uuid="e9e7e7d5-11d5-4853-a7c3-4d091e692c02">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="29d4b24e-fcd1-44fa-b184-1d54ef8e8585"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[No.]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band/>
+	</detail>
+	<summary>
+		<band height="20">
+			<textField pattern="#,##0.00">
+				<reportElement x="620" y="0" width="140" height="20" uuid="377617a8-0355-48ca-a5f7-e7a842fdb1ac"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{v_jumlah}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="0" width="620" height="20" uuid="b432af75-d390-408b-ac3f-fff27087a530"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

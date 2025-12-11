@@ -1,0 +1,14 @@
+- KODE SATKER      : 15432
+- TAHUN ANGGARAN   : VOUCHER 
+- NO DOKUMEN       : 040/REG/04/23
+- TGL DOKUMEN
+- URAIAN           : Jenis Anggaran	REAGENSIA
+- KATEGORI         : 1
+- NAMA_PENERIMA    : Penyimpanan	Gudang Induk Farmasi
+- NOMOR REKENING   : 8100124154321000 (tetap)
+- KODE MATA UANG   : IDR
+- NILAI            : Total Setelah Pembulatan 2.050.944.158,00
+- KODE COA         : 12 digit sama semua
+- NPWP             : tetap
+
+024.04.WA.4813.4813.EBA.4813.EBA.9.001.B.511621

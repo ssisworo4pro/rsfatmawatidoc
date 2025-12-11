@@ -1,0 +1,16 @@
+login : root
+pass : Informasi1#
+
+IP sementara sebelum dipindah ke ruang server :
+192.168.40.75 | 192.168.22.191
+
+Ip baru server APP_ TIM_PENERIMA
+192.168.5.73 / 192.168.3.73
+
+
+
+kd, nm, 
+saldoAwal, 
+pengadaanBeli, pengadaanProduksi, 
+penjualan, floorStok, bahanProduksi, rusak, expired, returBeli, 
+saldoAkhir

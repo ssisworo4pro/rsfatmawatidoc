@@ -1,0 +1,65 @@
+* Reservasi
+  - IRM, tambah modul baru
+  - Migrasi Jumat - Senin
+    * cek kasus operasi (tergabung / tidak)
+  - tools operasional :
+    * Joki tautan
+	* batal reserv / cek point terlewat (sudah ada)
+    * informasi sisa kuota
+  # pengisian alamat?
+  # kasus operasi ODC
+  # release aplikasi
+  - versi Iphone
+  - log error backend
+* Remun
+  - (simrsgos) Pendaftaran Bedah Prima (khusus rawat inap)
+  - (simrsgos) Discount dokter
+  - Web
+  - Android
+* integrasi Bank Mandiri
+  - (simrsgos) Cetakan Tagihan per Kunjungan
+  - (simrsgos) Perhitungan Tagihan per Kunjungan
+* Modul Opname
+* Modul DIR.LO
+* PIC :
+  - Deni & Fauji  	 => laporan
+  - Abi   			     => Antrol
+  - Heru  			     => Master Remun
+  - Ilham 			     => ts Reserv, finger, modul IRM
+  - Bagus 			     => DL
+* Modul Klaim
+* Dashboard
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----------------------------------
+29-11
+* export data pendapatan 202310 irj & ranap
+* koordinasi daftar pekerjaan
+* 1x input rcn (bridging rcn)
+* dashboard (layout type 2 & table pagination)
+
+28-11
+* koordinasi Reservasi
+* persediaan farmasi
+* data remun EXECUTIVE
+
+27-11
+* rakor remun EXECUTIVE

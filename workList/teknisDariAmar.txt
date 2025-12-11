@@ -1,0 +1,31 @@
+MCU
+---------------------------
+* Codingan
+* Master
+
+RADIOLOGI
+---------------------------
+* NEMBAK API ke PACS (view)
+
+LAB
+---------------------------
+* DB to DB
+
+QUERY
+------------------------------------------------------------
+PENDAPATAN : pembayaran.tagihan & pembayaran.rincian_tagihan
+PENERIMAAN : pembayaran_tagihan
+kebutuhan pengirim
+
+RESERVASI ONLINE BPJS
+----------------------------------------------
+QUOTA ANTROL
+JADWAL DOKTER
+SURAT KONTROL
+
+SATU SEHAT
+----------------------------------------------
+- Laboratorium
+- Radiologi
+  * modality to pacs and localDev
+  * tarik data dari pacs

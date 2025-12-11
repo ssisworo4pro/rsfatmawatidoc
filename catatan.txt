@@ -1,0 +1,17 @@
+ssAnydesk2023
+
+route add 192.168.5.0 mask 255.255.255.0 10.81.234.1
+route add 192.168.40.0 mask 255.255.255.0 10.81.234.1
+route delete 0.0.0.0 mask 128.0.0.0
+route delete 128.0.0.0 mask 128.0.0.0
+
+
+rsfLap@2022
+
+Message: Trying to get property of non-object
+
+Filename: core/MY_Controller.php
+
+Line Number: 82
+
+user model 33

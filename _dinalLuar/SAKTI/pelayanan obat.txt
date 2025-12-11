@@ -1,0 +1,12 @@
+Konfirmasi :
+1. perbedaan data order resep dokter dengan yang di input di depo, pengaruhnya terhadap perubahan informasi rekam medis pasien.
+
+
+Development :
+1. buatkan laporan monitoring untuk perbedaan antara order dokter dan inputan dokter
+2. dashboard monitoring resep yang belum diterima, resep yang belum di final dan jeda waktu antara resep dibuat - diterima - difinal
+3. tambahkan informasi date time batal final, harus dipelajari lebih lanjut mekanisme pembatalan final
+4. monitoring billing (batal tagihan dan final tagihan)
+5. monitoring pendaftaran dan kunjungan
+6. pelajari lebih lanjut untuk retur penjualan dan tanggal potong stoknya
+7. laporan penjualan dan retur

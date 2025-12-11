@@ -1,0 +1,58 @@
+/* laporan tindakan */
+
+SELECT 
+  pp.NORM,
+  pp.NOMOR NOPEN,
+  pj.NOMOR NOMORSEP,
+  mps.NAMA,
+  mps.JENIS_KELAMIN JK,
+  mref.DESKRIPSI JENISKELAMIN,
+  DATE_FORMAT(mps.TANGGAL_LAHIR,'%d/%m/%Y') TGLLAHIR,
+  DATE_FORMAT(pk.MASUK,'%d/%m/%Y %H:%i') TGLKUNJUNGAN,
+  mref2.DESKRIPSI CARABAYAR,
+  ltm.TINDAKAN KODETINDAKAN,
+  mtin.NAMA TINDAKAN,
+	mtf.TARIF TARIF,
+  DATE_FORMAT(ltm.TANGGAL,'%d/%m/%Y %H:%i')  TGLTINDAKAN,
+	IF(DATE_FORMAT(ltm.TANGGAL,'%H:%i') <= '10:00','100',
+		IF(DATE_FORMAT(ltm.TANGGAL,'%H:%i') > '10:00' and DATE_FORMAT(ltm.TANGGAL,'%H:%i') <= '12:00' ,'50',
+			IF(DATE_FORMAT(ltm.TANGGAL,'%H:%i') > '12:00' and DATE_FORMAT(ltm.TANGGAL,'%H:%i') <= '14:00' ,'25',
+				IF(DATE_FORMAT(ltm.TANGGAL,'%H:%i') > '14:00','0','')))) KATEGORI,
+  IFNULL( `master`.getNamaLengkapPegawai(mpeg.NIP), `master`.getNamaLengkapPegawai(mpg.NIP)) DOKTER,
+	
+	`master`.getNamaLengkapPegawai(mpeg.NIP) PELAKSANA_LAYANAN,
+	`master`.getNamaLengkapPegawai(mpg.NIP) USER_INPUT,
+	IFNULL(smf.DESKRIPSI,smf2.DESKRIPSI) SMF,
+ir.DESKRIPSI INSTALASI_RUANGAN,
+mruang.DESKRIPSI RUANGAN,
+ins.DESKRIPSI INSTALASI_ASAL,
+ma.DESKRIPSI PENDAFTARAN_ASAL
+FROM layanan.tindakan_medis ltm 
+LEFT JOIN pendaftaran.kunjungan pk ON pk.NOMOR = ltm.KUNJUNGAN
+LEFT JOIN pendaftaran.pendaftaran pp ON pp.NOMOR = pk.NOPEN
+LEFT JOIN master.pasien mps ON mps.NORM = pp.NORM
+LEFT JOIN master.referensi mref ON mps.JENIS_KELAMIN = mref.ID AND mref.JENIS = 2
+LEFT JOIN master.tindakan mtin ON mtin.ID = ltm.TINDAKAN
+LEFT JOIN master.ruangan mruang ON mruang.ID = pk.RUANGAN
+LEFT JOIN master.ruangan ir ON ir.ID=LEFT(pk.RUANGAN,5) and ir.JENIS=3
+LEFT JOIN pendaftaran.penjamin pj ON pj.NOPEN = pp.NOMOR
+LEFT JOIN master.referensi mref2 ON pj.JENIS = mref2.ID AND mref2.JENIS = 10
+LEFT JOIN layanan.petugas_tindakan_medis lptm ON lptm.TINDAKAN_MEDIS = ltm.ID
+LEFT JOIN master.dokter mdok ON lptm.MEDIS = mdok.ID AND lptm.JENIS in (1,2)
+LEFT JOIN master.pegawai mpeg ON mpeg.NIP = mdok.NIP
+LEFT JOIN master.referensi smf on mpeg.SMF=smf.ID and smf.JENIS ='26'
+LEFT JOIN aplikasi.pengguna ustm ON ltm.OLEH=ustm.ID	
+LEFT JOIN master.pegawai mpg ON ustm.NIP=mpg.NIP AND mpg.PROFESI=4
+LEFT JOIN master.referensi smf2 on mpg.SMF=smf2.ID and smf2.JENIS ='26'
+LEFT JOIN pembayaran.rincian_tagihan trf ON ltm.ID = trf.REF_ID and trf.JENIS=3 and trf.`STATUS` != 0
+LEFT JOIN `master`.tarif_tindakan mtf on mtf.ID=trf.TARIF_ID
+LEFT JOIN pendaftaran.tujuan_pasien tp ON tp.NOPEN=pp.NOMOR
+LEFT JOIN master.ruangan ma ON ma.ID=tp.RUANGAN
+LEFT JOIN master.ruangan ins ON ins.ID=LEFT(tp.RUANGAN,5) and ins.JENIS=3
+
+WHERE 
+ltm.`STATUS` != 0 and
+pk.STATUS != 0 and
+ltm.TANGGAL >= '2022-04-01'  AND
+ltm.TANGGAL < '2023-01-01'  AND
+(IFNULL( `master`.getNamaLengkapPegawai(mpeg.NIP), `master`.getNamaLengkapPegawai(mpg.NIP)) IS NOT NULL);

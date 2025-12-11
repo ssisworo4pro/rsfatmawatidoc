@@ -1,0 +1,13 @@
+PENDAPATAN vs PENERIMAAN
+- Pendapatan Rawat Inap
+  * tanggal daftar, transaksi, pulang, keluar
+  * dikelompokan ruang rawat inap
+  * konsul ke non rawat inap, harus ada informasi ruang rawat inap saat di konsul
+  * pelaksana dari masing2 kegiatan
+  * kasus-kasus operasi dimana pelaksana lebih dari 1, dibuat tetap 1 baris data dengan infomrasi tambahan dokter2, dokter3, dst
+  * tanggal pulang
+  * setiap tanggal 5
+  * Pendapatan vs Penerimaan Kasir
+- Pendapatan Rawat Jalan
+  * belum ada pelaksana
+  

@@ -1,0 +1,13 @@
+resume medis ...             belum ada tanggal pulang sebelum final pulang
+                             dan tanggal masih kosong
+surat pulang (cetak) ...     baru muncul setelah final
+laporan pasien keluar ....   ada tanggal pulang setelah final
+final pulang ...             hanya akses oleh biling
+batal final...               apabila tto sudah terisi, yang ada pilihan hanya 'kelalaian'
+
+
+
+
+Ventilaor diisi... setelah klaim... jadi hilang...
+
+bad yang sudah di-reservasi ditimpa oleh oleh pasien lain

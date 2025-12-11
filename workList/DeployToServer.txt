@@ -1,0 +1,130 @@
+lab
+--------------------------------------------
+Koneksi mysql development
+ip/host   : 192.168.3.53 atau 192.168.5.32
+user      : devlab_interface
+password  : l4bB12idging@
+dbName : lis_bridging
+
+user Database
+----------------------------
+user : rsflaporan
+pass : rsfLap@2022
+
+user : admin
+pass : S!MRSGos2new
+
+root S!MRSGos2
+
+[07:45, 21/02/2023] RSF Isipd Viki Ardi: Mas sapto untuk yg aplikasi trnyata udah ada :
+
+User : root
+Pass : Informasi1#
+Ip lokal : 192.168.3.73
+Ip wifi rs : 192.168.5.73
+[07:46, 21/02/2023] RSF Isipd Viki Ardi: Untuk db kesini :
+
+User : root
+Pass : Informasi1#
+Ip lokal : 192.168.22.5
+Ip wifi rs : 192.168.40.5
+
+--------------------------------------
+
+ip lokal : 192.168.3.49
+ip inet : 192.168.5.52
+
+user login ssh : rsupf
+pass : adminfatmaisirs2020#
+
+user root : root
+pass : bismillah@rsupf2020#
+
+ssisworo.work@gmail.com
+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
+
+--------------------------------------
+
+https://github.com/ssisworo4work/monitorWService.git
+https://github.com/ssisworo4work/monitorPersediaan.git
+
+rsfatmawati.git@gmail.com
+-------------------------------------
+gmail  : informasi1@2022
+github : informasi1@2022
+token  : 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
+
+$ sudo yum install -y epel-release
+$ sudo yum install -y chromium
+
+Install Node JS
+---------------------------------------------------------------------
+sudo yum -y install curl
+curl -sL https://rpm.nodesource.com/setup_16.x | sudo bash -
+sudo yum install -y nodejs
+node -v
+yum install git
+npm install -g pm2
+
+FIREWALL STATUS
+---------------------------------------------
+sudo systemctl status firewalld
+firewall-cmd --permanent --zone=public --add-port=80/tcp
+firewall-cmd --permanent --zone=public --add-port=90/tcp
+firewall-cmd --permanent --zone=public --add-port=88/tcp
+firewall-cmd --reload
+
+ini aplikasinya ada 2 :
+1. webservicenya.... saya bikin di port 90
+2. aplikasinya sendiri.... saya arahkan ke port 88
+oke a
+
+SetUp Aplikasi
+---------------------------------------------------------------------
+cd /opt
+mkdir monitorWService
+cd monitorWService
+git clone https://github.com/ssisworo4work/monitorWService.git .
+npm install
+node index.js
+pm2 start index.js
+
+cd /opt
+mkdir monitorPersediaan
+cd monitorPersediaan
+git clone https://github.com/ssisworo4work/monitorPersediaan.git .
+npm install
+# change port to 88
+node index.js
+pm2 start index.js
+
+
+------------------------ vyos ----------------------
+install image
+configure
+
+
+
+----------------------- 73 -----------------------
+ yum update httpd
+ yum install httpd
+ firewall-cmd --permanent --add-service=http
+ firewall-cmd --permanent --add-port=88/tcp
+ firewall-cmd --zone=public --list-ports
+ firewall-cmd --list-ports
+ 
+ firewall-cmd --reload
+ firewall-cmd --permanent --add-service=https
+ systemctl start httpd
+ systemctl status httpd
+ systemctl enable httpd
+ /etc/httpd/conf/httpd.conf
+ 
+ yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+ yum install http://rpms.remirepo.net/enterprise/remi-release-7.rpm
+ yum install yum-utils
+ yum-config-manager --enable remi-php56 
+ yum-config-manager --enable remi-php56 
+ 
+ yum install httpd php-mysql
+ 

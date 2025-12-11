@@ -1,0 +1,70 @@
+Oktober
+-----------------------------------------
+tgl.04
+- supervisi teknis mcu
+- trouble shoot master katalog farmasi, katalog barang gh nongh
+- rapat utd
+- rapat teknis tto
+10.15 - 10.40
+- tarif akomodasi naik 10%
+09.30 - 10.15
+- koordinasi briding UTD
+09.00 - 09.30
+- tarik data pendapatan ranap agustus dan september
+- tarik data pendapatan rajal juli, agustus dan september
+
+08.45 - 09.00
+- trouble shoot master katalog farmasi, setting harga_beli untuk perencanaan
+
+08.00 - 08.45
+- morning Trobleshoot, masalah tto
+
+tgl.03
+- 
+
+tgl.02
+
+10.15 s.d 14:10
+- troubleshoot data master katalog farmasi
+  kasus : SIMRSGOS ada katalog, tetapi di FATMAHOST belum ada
+
+09.52 s.d 10.15
+- Proses remun EXECUTIVE khusus LAB,
+  karena lab baru ada data dokternya per 1 Oktober 2023 sore
+  
+08:40 s.d 09.52
+- troubleshoot data master katalog farmasi
+  kasus : FATMAHOST ada katalog, tetapi di SIMRSGOS belum ada
+          AKTIFASI katalog di SIMRSGS, yang kodenya belum sesuai
+
+08:00 s.d 08:40
+- implementasi lis_bridgin.ordered_item.sts_delete
+	FYI : 	untuk STS_DELETE di tabel ORDERED_ITEM sudah digunakan saat ini yach, 
+			kalo 0 tidak batal, 1 berarti batal. 
+			...... terus yang di table ORDERED_ITEM_BATAL akan berisi 
+			data sudah dikirim dengan status 0, tetapi dibatalkan.
+	QUERY :
+	select * from 
+		(	select 		'ord' as desc1, oi.* 
+				from 	lis_bridging.ordered_item oi 
+				where 	order_item_datetime > '2023-10-02 08:32' and 
+						sts_delete = 1 
+				order 	by order_item_datetime desc limit 7) a
+	union all
+	select * from 
+		(	select 		'btl' as desc1, oib.* 
+				from 	lis_bridging.ordered_item_batal oib 
+				where 	order_item_datetime > '2023-10-02 08:32' 
+				order 	by order_item_datetime desc limit 7) b;
+				
+	select * from lis_bridging.ordered_item oi order by order_item_datetime desc;
+	select * from lis_bridging.ordered_item oi where sts_delete = 1 order by order_item_datetime desc;
+	select 		p.NORM, k.nomor, k.NOPEN, k.MASUK, r.DESKRIPSI 
+		from 	pendaftaran.kunjungan k
+				left outer join pendaftaran.pendaftaran p
+				on k.NOPEN = p.NOMOR
+				left outer join master.ruangan r 
+				on r.ID = k.RUANGAN 
+		where 	k.NOMOR = '1010701012310020085';
+	select * from lis_bridging.ordered_item oi order by order_item_datetime desc;
+	select * from lis_bridging.ordered_item_batal oib 

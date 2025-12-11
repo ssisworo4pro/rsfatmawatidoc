@@ -1,0 +1,217 @@
+farmasi :
+----------------------------------------
+Agenda integrasi data team penerima dan gudang
+A. konfirmasi program team terima barang
+   1. konfirmasi proses penerimaan barang rekanan
+   2. konfirmasi proses penambahan stok dari penerimaan barang rekanan
+   3. konfirmasi pembentukan master barang & alurnya
+   4. konfirmasi proses pembentukan harga jual
+   5. ujicoba integerasi data
+B. implementasi integerasi teamPengadaan dan Gudang
+
+Agenda persiapan laporan persediaan
+C. Konfirmasi Laporan stok
+   1. diskusi laporan opname
+   2. diskusi laporan transaksi harian
+   3. diskusi laporan katalog harian
+D. Perbaikan aplikasi
+   1. diskusi lanjutan terbatas kasus implan
+   2. diskusi permintaan barang antar depo
+   3. konfirmasi permintaan resep dokter dan proses pemenuhannya.
+
+
+TODO
+1. Cek hasil stok opname
+   - cetak hasil stok opname
+   - verifikasi / bandingkan dengan dokumen manual stok opname
+
+APLIKASI
+1. Integrasi TeamTerima dan BarangMasukGudang
+   - level verifikasi :
+     - teamTerima
+	 - gudang (menambahStok / revisiStok)
+	 - akuntansi
+   - terjadi saat data diverifikasi Gudang
+   - jika sudah verifikasi akuntansi data tidak bisa diubah lagi
+   - jika ada koreksi nilai setelah diverifikasi Gudang
+     maka akan ada koreksi nilai terima (pengaruh terhadap nilai fifo) dan log-nya
+   - jika ada koreksi jumlah setelah diverifikasi Gudang
+     maka akan ada tambahan transaksi revisi penerimaan barang
+   - tidak ada batal verifikasi gudang,
+     jika ada, harus ditindaklanjuti dengan analisa
+	 dampak perubahan batal verifikasi gudang tersebut.
+2. Lanjutan dari Integrasi TeamTerima dan BarangMasukGudang
+   - proses pembentukan harga jual
+   - proses pembentukan katalog barang baru dan mapping barang depo
+3. pembentukan data laporan transaksi harian
+   - Laporan Opname
+   - Laporan berkas transaksi harian
+   - Laporan katalog harian
+4. Perbaikan transaksi
+   - kasus barang tanpa berkas, problem po terlambat
+     kata kunci : tanggal pemakaian harus lebih dari tanggal po
+     solusi     : bisa langsung bikin po super cito, dengan proses yang diminimalisir.
+	              konsekuensi, orang anggaran bisa memonitor secara realtime, anggaran dan biayanya
+	 pertanyaan : bgmana aturan pembuatan po
+	 kalaupun terpaksa,
+	 #1. harus ada proses terima barang teamTerima, gudang, mutasi ke depo, digunakan pasien.
+	     dasar teamTerima dengan hutang dari transaksi pasien implan.
+	 #2. dasar transaksi implan ini, menjadi hutang po.
+   - kasus permintaan barang antar depo (tanpa proses minta, terima, kirim. tapi langsung kirim)
+     tapi kasusnya bisa distandarkan tetap harus minta,
+	 tetapi proses minta-nya yang diotomasi dengan kebutuhan depo atas dasar transaksi resep dokter,
+	 dan tentunya barang tersebut ada di depo yang akan dimintakan.
+   - kasus permintaan resep dokter, pemilihan depo langsung ditentukan by sistem berdasarkan posisi pasien
+     jika obat tersebut tidak ada di depo, maka langsung jadi permintaan (atau ada intervensi manual dulu)
+
+TEKNIS PEKERJAAN :
+----------------------------------------------------------------------------------------
+1.	Mapping Barang TeamTerima to SIMRSGOS & penjagaan konsistensi
+	- sweeping master barang
+	  proses sweeping kode di simrsgos
+	  a. cari kode double, pilih satu diantaranya sebagai master
+	     ganti kode yang lainnya dengan tambah extkode .001 .002 dst dan jadikan non aktif
+		 * jika diperlukan lakukan pengabungan trx dengan update semua trx dengan id dari kode yang dipilih
+	  b. cari kode yang kosong, isi kodenya secara manual
+	     * jika tidak ditemukan/tidak digunakan isi kode jadi .001 .002 dst
+	  c. pastikan kode sudah unik
+	  d. tambahkan unique index untuk kolom kode
+	- sweeping transaksi per obat
+	  a. data jumlah qty untuk transaksi penerimaan obat selama 2022
+	     - pembelian
+		 - hibah/sumbangan (/d)		
+		 - bonus (/b)
+	  b. saldo awal 31 desember 2021
+	  c. laporan triwulan 1 tahun 2022 sebagai referensi
+	  d. penerimaan < 2022, akan diperhitungan dari saldo awal 31-12-2021 dikurangi penerimaan 2022 
+	  e. total_obat = penerimaan 2022 + obat sebelum 2022 (tidak ada terima di 2022)
+	  f. transaksi di luar total_obat dianggap tidak valid (salah katalog) untuk di koreksi.
+	  g. stokOpname 17 Desember 2022 sebagai saldo akhir dengan ketentuan f.
+	  h. transaksi selama 17 Desember sampai 31 Desember untuk mendapatkan nilai CutOff 2022
+	     (jika ada minus, dianggap 0, dengan nilai minus sebagai TA untuk rajal, IMPLAN, CATHLAB/UKVI, 
+	
+	
+	
+	
+	# membuat fungsi untuk sikronisasi master katalog
+	  a. fungsi insert :
+	     1. mkatalog_pabrik
+	     2. mkatalog_kemasan
+	     3. mkatalog_pbf
+	     4. mkatalog_farmasi
+	  b. dan fungsi update :
+	     1. mkatalog_pabrik
+	     2. mkatalog_kemasan
+	     3. mkatalog_pbf
+	     4. mkatalog_farmasi
+	- membuat trigger untuk menjalankan proses sinkronisasi
+	  * trigger insert/update teamterima.masterf_pbf
+	  * trigger insert/update teamterima.masterf_kemasan / masterf_satuankecil
+	  * trigger insert/update teamterima.masterf_katalog
+	- modifikasi aplikasi input untuk (jika diperlukan) :
+	     1. masterf_pabrik  => mkatalog_pabrik
+	     2. masterf_kemasan => mkatalog_kemasan
+	     3. masterf_pbf     => mkatalog_pbf
+	     4. masterf_katalog => mkatalog_farmasi
+		    * tambahan modifikasi obat generik (referensi.42)
+			* tambahan modifikasi kategori
+    - monitoring konsistensi (jika diperlukan) :
+	     1. masterf_pabrik  => mkatalog_pabrik  => referensi.39
+	     2. masterf_kemasan => mkatalog_kemasan => satuan
+	     3. masterf_pbf     => mkatalog_pbf     => penyedia
+	     4. masterf_katalog => mkatalog_farmasi => barang
+	- proses pembentukan harga jual
+
+2.  Sinkronisasi transaksi
+	- Create Function Insert transaksi ke simrsgos
+	  * log proses
+	  * validasi jumlah data sync
+	- Create trigger
+	- Create monitoring data sync
+	- Create monitoring update harga jual
+
+
+Ada 4 point kasus utama :
+1. master barang & kasus double entry teamPenerima
+   solusi : diperbaiki aplikasinya untuk proses sinkronisasi data
+2. kasus dokter input bebas katalog sesuai ada di gudang
+   solusi : a. depo berdasarkan posisi pasien (bukan input oleh dokter)
+            b. jika barang tidak ada bisa langsung membuat permintaan ke gudang
+3. kasus PO makan waktu agak lama proses tapi barang sudah digunakan
+   (kasus implan dan sejenisnya)
+   * butuh pendalaman kasus untuk mencari solusi
+4. kasus salah input katalog
+   * butuh pendalaman kasus untuk mencari solusi
+
+  
+    
+	
+    
+   
+   
+
+
+- Request
+- Labu Darah
+  - order, donor
+  - pemeriksaan
+  - stok
+  - on progress
+- emr
+- sdm
+- WA
+- Dashboard
+- 
+
+
+RS-FATMAWATI
+-----------------------------------------------------
+share folder :
+\\192.168.22.131\share\bagusfajardc DTO\Program\Instalan SIMRSGOS
+
+dashboard : http://192.168.5.66/dashb-RSF/index.php?m=1&sm=1#RawatJalanMenu
+admin@gmail.com 123
+
+http://192.168.3.53/apps/SIMpel/
+
+
+echo "# workingnote" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/ssisworo4work/workingnote.git
+git push -u origin main
+
+git remote add origin https://github.com/ssisworo4work/workingnote.git
+git branch -M main
+git push -u origin main
+
+INSTALASI
+---------------------------
+setting awal simgos2, after clone :
+- rename db/config.php.dist to config.php
+- rename webservice/config/autoload/local.php.dist to local.php
+
+os
+root informasi1
+
+os
+root simrsgos
+
+database
+root S!MRSGos2
+
+
+
+yum remove mysql
+yum remove mysql-server
+yum clean all
+rpm -qa | grep mysql
+#now execute the command:
+   # yum remove <name displayed in above step-1>
+   Eg: yum remove mysql-libs-5.1.73-3.el6_5.x86_64
+ 
+ 
+ http://192.168.3.49/pro/farmasi/mutasiv3/laporanmutasitriwulan
+ 

@@ -1,0 +1,2 @@
+http://192.168.5.52/pro/farmasi/pemesanan/prints/S00202311000017/v_bn
+/var/www/html/pro/application/views/farmasi/Pemesanan

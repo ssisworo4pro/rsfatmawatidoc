@@ -1,0 +1,21 @@
+Skema Persiapan Farmasi :
+
+a. persiapan SO bulan desember 2022:
+	1. sinkronisasi master barang SIMRSGOS dengan RSUPF
+	2. input SO di fatmahost 
+	3. integrasi data SO fatmahost ke SIMRSGOS
+	4. cetak dan verifikasi laporan SO 
+
+b. setelah SO (monitoring transaksi harian):
+	1. laporan rekap transaksi harian
+		catatan:
+		- harus di buat laporannya (development)
+		- ada proses verifikasi (akutansi / farmasi), mekanisme akan di diskusikan lebih lanjut
+	2. cetak berkas transaksi (cetak resep,dll)
+		catatan:
+		- tambahkan nomor resep di cetakan, agar dapat di kroscek dengan laporan
+	3. monitoring real stock (development)
+	4. integrasi data penerimaan (tim penerima) ke SIMRSGOS
+	5. cut off transaksi (development)
+	6. penambahan sysdate in dan sysdate last di semua transaksi
+	

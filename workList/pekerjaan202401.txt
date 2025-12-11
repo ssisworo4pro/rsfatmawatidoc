@@ -1,0 +1,46 @@
+Integrasi MHAS MANDIRI - RS Fatmawati
+- target tgl 1 Februari, 
+  implementasi kasir bank mandiri di igh & bougenville
+- Cakupan pekerjaan
+  * API sesuai spesifikasi bank MANDIRI
+  * Terkoneksi dengan 2 sistem SIMRSGOS dan TRANSMEDIK
+  * Interface sementara (menunggu koneksi produksi dari bank mandiri)
+
+Integrasi Fingerprint pada saat login
+- target tgl 1 Febuari, selesai development SIMRSGOS
+- Cakupan pekerjaan
+  * Enroll dokter (selesai)
+  * API untuk validasi Finger dan data Enroll
+  * Modifikasi Interface Login di SIMRSGOS
+ 
+Supporting Rekonsiliasi Remunerasi EXECUTIVE bulan Januari 2024
+- target tgl 1 Februari, selesai rekon bersama keuangan
+- Cakupan pekerjaan
+  * extract data dari database SIMRSGOS
+  * rekon kesesuaian tarif
+  * rekon kesesuaian rekap dan rinci
+ 
+Supporting Rekonsiliasi Pelaporan FARMASI SAKTI
+- target 
+- Cakupan pekerjaan
+  * extract data hutang dan rekonnya dari PEMBUKUAN dan TEAMTERIMA
+  * extract data pembayaran pembelian barang farmasi dan rekonnya dari
+    PEMBUKUAN dan TEAMTERIMA
+  * extract data dalam rangka perhitungan/rekon pemakaian farmasi :
+    - saldo akhir sakti 2023 sebagai saldo awal
+	- transaksi hasil produksi 2023
+	- transaksi penerimaan bonus dan donasi 2023
+	- transaksi pencatatan hutang 2023
+	- transaksi pembayaran pembelian 2023
+	- transaksi stok opname akhir 2023
+	- transaksi pemakaian setelah stokopname akhir 2023 sd akhir tahun.
+
+Tindak Lanjut update harga jual secara otomatis
+- target
+- Cakupan pekerjaan
+  * membuat spesifikasi teknis proses update harga secara otomatis
+  * membuat proses sesuai spesifikasi teknis
+  * ujicoba proses
+  * deploy proses
+  
+ 

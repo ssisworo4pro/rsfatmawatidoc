@@ -1,0 +1,31 @@
+tahap 1 2023, jogja
+	ujicoba standarisasi pengiriman data ADK
+	1. pembentukan 3 file Berita Acara
+	2. pembentukan zip file Berita Acara dengan Password
+
+tahap 2 2023, bekasi
+	1. Ujicoba pengiriman file ADK berpassword via Aplikasi
+
+tahap 3 2023, bogor
+    1. Evaluasi pengiriman
+	2. Kendala kasus-kasus pembulatan
+
+2024, Implementasi
+
+
+--------------------------------
+
+Sebetulnya harus semua gudang mba d interkoneksikan, jadi bukan hanya farmasi aja.
+Untuk aset lancar transaksi in:
+1. Pembelian
+2. Donasi/hibah
+3. Transfer masuk
+4. Bonus
+5. Obat pengganti
+6. Hasil produksi
+Transaksi out:
+1. Pemakaian
+2. Transfer keluar
+3. Usang/rusak
+4. Retur distributor
+5. Penghapusan usang rusak

@@ -1,0 +1,15 @@
+npm install @vue/cli-service -g --location=global
+npm install @vue/cli -g
+npm install @vue/cli-plugin-babel
+
+npm install --legacy-peer-deps
+
+https://stackoverflow.com/questions/51084089/vuejs-app-showing-invalid-host-header-error-loop
+
+I believe you need to change vue.config.js
+
+module.exports = {
+  devServer: {
+    disableHostCheck: true
+  }
+}

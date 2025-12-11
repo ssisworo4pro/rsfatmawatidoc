@@ -1,0 +1,22 @@
+kasus Pendapatan rawat jalan :
+1.  daftar nomor ini 2301311152
+    kasus poliklinik apa griya husada yak
+	harga pemeriksaannya 300ribu
+	poliklinik kan harganya 75000
+	-- Pemeriksaan Dokter Spesialis konsulatan (IGH) --- disweeping manual
+2.  poli anestesi, nomor pendaftaran 2301030747
+	memiliki 2 nip, layan_lokasi berbeda
+	2301030747
+	2304050639
+	-- layan_dirawat beda, layan_lokasi sama, tanggal sama, ambil salah satu
+3.  bedah saraf, nomor pendaftaran 2301031057
+    -- salah input yang tanggal 5-nya
+4.  kebidanan, 2301150141
+	-- salah input yang tanggal 16-nya
+	
+	
+ 1. a. Kasus Konsul, kemudian order lab dari ruangan konsul
+   b. Kasus OK, kemudian order obat dari ruangan OK
+2. Kasus gabung tagihan
+   a. salah gabung ranap - rajal, harusnya rajal - ranap
+   b. hilangkan gabung tagihan dari laporan pendapatan rajal

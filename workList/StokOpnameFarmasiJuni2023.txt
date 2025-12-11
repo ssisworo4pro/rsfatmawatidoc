@@ -1,0 +1,42 @@
+KODE BARANG
+------------------------
+XXA123.99
+
+XX   : Kelompok Barang
+A    : Huruf Pertama Nama Barang
+123  : Counter dari XXA
+
+10 - Tablet
+12 - Khemo
+
+Master Data : Gudang   - Gudang Induk
+Perencanaan : Gudang   
+HPS         : PPK      - ULP dan TeamTerima
+SPK         : PPK
+DO          : PPK
+Penerimaan  : TeamTerima dan Gudang
+Retur       : Gudang dan TeamTerima
+Verifikasi  : Akuntansi
+
+Laporan monitoring persediaan untuk floorstok
+Harga Jual untuk Asuransi
+Rekalkulasi maksimal tanggal 26 sudah selesai
+Permintaan Antar Depo, ditambahkan info merk & stok yang dituju
+Simulasi Obat Pengganti harusnya yg muncul Nama Obat Pengganti
+
+DRAFT AGENDA PERBAIKAN STOK FARMASI
+==============================================
+14 Juni        - Internal Test Gudang-PPK-Team
+16 Juni        - Implementasi Gudang-PPK-Team
+16 Juni        - Supervisi
+               - Pembahasan u/ kesepakatan penggabungan master Katalog
+19 Juni        - Implementasi Master Katalog & Supervisi
+20 Juni        - Ujicoba 1x entry terima barang
+21 Juni        - Implementasi 1x entry terima barang
+22 Juni        - Sweeping transaksi Katalog s.d 23 Juni
+24/25 Juni     - Hitung Ulang Stok
+27 Juni        - Persiapan SO
+30 Juni/1 Juli - StokOpname
+* fitur tambahan untuk mengunci tidak terjadi stok minus
+
+Draft Agenda Kerja perbaikan Stok Farmasi, secara internal isimrs, harus dibentuk team untuk mensukseskan Tujuan Agenda

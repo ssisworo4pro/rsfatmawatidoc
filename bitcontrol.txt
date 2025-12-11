@@ -1,0 +1,38 @@
+bitcontrol1 :
+	16 digit dari kiri
+	bit #1        : tombol cari pasien (0. tidak aktif/hide, 1. aktif)
+	bit #2        : tombol tambah pasien (0. tidak aktif/hide, 1. aktif)
+	bit #3        : tombol tambah / create form (0. tidak aktif/hide, 1. aktif)
+	bit #4        : tombol show form (0. tidak aktif/hide, 1. aktif)
+	bit #5        : tombol edit form (0. tidak aktif/hide, 1. aktif)
+	bit #6        : tombol delete form (0. tidak aktif/hide, 1. aktif)
+	bit #7        : tombol print form (0. tidak aktif/hide, 1. aktif)
+	bit #8        : tombol export form (0. tidak aktif/hide, 1. aktif)
+	bit #9        : tombol reproses form (0. tidak aktif/hide, 1. aktif)
+    bit #10       : datatable tab 1 (0. normal)
+    bit #11       : datatable tab 2 (1. kondisi)
+    bit #12       : datatable tab 3 (1. kondisi)
+
+bitcontrol2 :
+	16 digit dari kiri
+	UTD
+		bit #1  : 	0 admin (semua aksi)
+				    1 pendaftaran (hanya aksi pendaftaran)
+				    2 dokter (hanya aksi dokter)
+				    3 pendaftaran dan periksa (hanya aksi pendaftaran dan periksa)
+				    4 admin dan kuota (semua aksi dan kuota poli)
+	
+	MASTER KATALOG
+		bit #1	:   0 Semua kolom tidak aktif
+				    1 Semua Kolom aktif, kecuali sts_aktif & kode_sakti
+				    2 Semua Kolom tidak aktif, kecuali kode_sakti
+				    3 Semua Kolom aktif tanpa kecuali
+					
+    TRANSAKSI PINJAM
+        bit #1	:   0 Semua kolom tidak aktif
+				    1 Semua Kolom aktif, kecuali sts_verifikasi
+				    2 Semua Kolom tidak aktif, kecuali sts_verifikasi
+				    3 Semua Kolom aktif tanpa kecuali
+					
+					
+0011100000000000 3000000000000000					

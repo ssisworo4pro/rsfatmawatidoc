@@ -1,0 +1,35 @@
+1. Prosedure perhitungan remun
+   - Tarif Executive
+   - Tarif JKN (virtual)
+   - Tarif REG (virtual - sedikit, visite dan pemeriksaan)
+   
+2. Sweeping Data 
+   CARA BAYAR KERINGANAN KARYAWAN TIDAK DIBAYARKAN
+   DAFTAR DI LUAR IGH
+   Executive - Bedah Prima :
+   - checklist dengan laporan manual secara harian.
+   - pembagian/distribusi jasa
+   Executive - UKVI :
+   - tarif JPD dan PERAWAT / RADIOGRAFER
+   - checklist dengan laporan manual secara harian.
+
+   DAFTAR DI IGH
+   - tindakan (diluar KONSULTASI) dan carabayar JKN (BPJS COSTSHARING), tidak dibayarkan .. dimasukkan ke JKN
+   Executive - Griya :
+   - jika hari sama, pasien sama, poli sama, diambil tanggal terima yang duluan
+   - checklist dengan laporan manual secara harian.
+   Executive - rad :
+   - sesuai tanggal tindakan (bukan tanggal hasil)
+   - checklist dengan laporan manual secara harian.
+   - tarif JPD
+   Executive - PA :
+   - sesuai tanggal tindakan (bukan tanggal hasil)
+   - checklist dengan laporan manual secara harian.
+   - tarif JPD
+   Executive - lab :
+   - sesuai tanggal tindakan (bukan tanggal hasil)
+   - checklist dengan laporan manual secara harian.
+   - tarif JPD
+3. Kasus Tindakan ESWT
+4. Discount Dokter
+5. Keluarkan data excel tanggal 1 s.d tanggal 18

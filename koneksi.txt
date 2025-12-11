@@ -1,0 +1,33 @@
+UserPass srv transmedic
+
+Server App Transmedic
+Os : Ubuntu 20.04.6 LTS
+Ip : 192.168.3.38 / 192.168.5.38
+user: server-app
+Pass: @fatmawati@2024
+
+Server Db Transmedic
+Os : Ubuntu 20.04.5 LTS
+Ip : 192.168.3.47 / 192.168.5.47
+user: server-db
+Pass: @fatmawati@2024
+
+Database Transmedik
+PostgreSQL Version 14.10
+DB_PORT=5959
+DB_DATABASE=rsup_fatmawati
+DB_USERNAME=postgres
+DB_PASSWORD=@@53Pr3scr1ption53@@
+DEMOTESTER
+
+HOST = 192.168.5.84:5959
+rsup_fatmawati
+postgrest
+
+Mongodb Version 7.0.5
+DB_PORT_MONGO=27017
+DB_DATABASE_MONGO=rsup_fatmawati
+DB_USERNAME_MONGO=transmedik
+DB_PASSWORD_MONGO=@@53Pr3scr1ption53@@
+
+0vrhG2sst`R\20,['(j(D}u

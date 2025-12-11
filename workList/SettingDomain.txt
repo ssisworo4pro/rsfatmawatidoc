@@ -1,0 +1,52 @@
+27.50.20.21
+8.8.8.8
+
+192.168.3.22
+192.168.3.24
+
+192.168.5.73   voucher.lokal.rsupfatmawati.id
+192.168.5.73   teamterima.lokal.rsupfatmawati.id
+192.168.5.73   sdm.lokal.rsupfatmawati.id
+192.168.5.25   emr.lokal.rsupfatmawati.id
+192.168.5.73   dashboard.lokal.rsupfatmawati.id
+
+	dev-teamterima.lokal.rsupfatmawati.id
+	dev-voucher.lokal.rsupfatmawati.id
+	dev-dashboard.lokal.rsupfatmawati.id
+	dev-sdm.lokal.rsupfatmawati.id
+	teamterima.lokal.rsupfatmawati.id
+	voucher.lokal.rsupfatmawati.id
+	dashboard.lokal.rsupfatmawati.id
+	sdm.lokal.rsupfatmawati.id
+	---------------------------------
+	Ip lokal   : 192.168.3.73
+	Ip wifi rs : 192.168.5.73
+
+	emr.lokal.rsupfatmawati.id
+	---------------------------------
+	Ip lokal   : 192.168.3.25
+	Ip wifi rs : 192.168.5.25
+
+	dev-emr.lokal.rsupfatmawati.id
+	---------------------------------
+	Ip lokal   : 192.168.3.53
+	Ip wifi rs : 192.168.5.32
+
+	dev-auth.lokal.rsupfatmawati.id
+	auth.lokal.rsupfatmawati.id
+	services.lokal.rsupfatmawati.id
+	dev-services.lokal.rsupfatmawati.id	
+	---------------------------------
+	Ip lokal   : 192.168.3.23
+	Ip wifi rs : 192.168.5.23
+	
+	
+Test :
+http://dev-teamterima.lokal.rsupfatmawati.id
+http://dev-voucher.lokal.rsupfatmawati.id
+http://dashboard.lokal.rsupfatmawati.id
+
+proxy :
+http://emr.lokal.rsupfatmawati.id/apps/SIMpel
+http://test-emr.lokal.rsupfatmawati.id/apps/SIMpel
+

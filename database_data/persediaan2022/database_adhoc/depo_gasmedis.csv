@@ -1,0 +1,5 @@
+depo_nama;katalog_id;katalog_kode;katalog_nama;katalog_satuan;katalog_merk;opname;beli;mmasuk;mkeluar;prod;resep;resep_retur;jual;jual_retur;akhir;koreksi_check;koreksi_kode;koreksi_keterangan
+gasmedis;3352;85O006;O2 GAS BTL 6  M3;TABUNG;ANEKA GAS INDUSTRI;41;0;0;0;0;0;0;0;0;41;85O006;;
+gasmedis;3351;85O008;O2 GAS BTL 1 M3;TABUNG;ANEKA GAS INDUSTRI;7;0;0;0;0;0;0;0;0;7;85O008;;
+gasmedis;9580;85O009;O2 CAIR (M3);M3;ANEKA GAS INDUSTRI;6326;0;0;0;0;0;0;0;0;6326;85O009;;
+gasmedis;1602;85S001;SODALIME 4.5 kg;GALON;INTERSURGICAL;2;0;0;2;0;0;0;0;0;0;85S001;;

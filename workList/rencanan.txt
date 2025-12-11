@@ -1,0 +1,71 @@
+https://devsimrsfmhas.rsupfatmawati.id/
+http://192.168.5.65:4007/
+
+BACKEND :
+- utd => historis nomor
+- fatmahost-master 
+  * master kuota
+  * master selectize kuota
+- mrs-auth-patient
+  * expired (30 hari), kasus android
+
+FRONTEND :
+- utd => historis nomor
+- master jadwal dokter
+- master tarif remun
+- dashboard remun
+- master ksm & subspesialis
+- bios (input saldo)
+- web Reservasi Pasien (informasi jadwal)
+
+ANDROID :
+- Reservasi Pasien
+  update :
+  * pemilihan ksm
+  * informasi jadwal dokter
+
+JADWAL DOKTER / RESERVASI :
+- master
+  * Kuota Dokter => * Kuota Griya Husada, Libur Executive
+                    * Kuota Rawat Jalan, Libur Dokter
+					* Libur Nasional
+
+
+# update service
+hims-backend
+fatmahost-master
+simrs-auth-patient d
+fatmahost-master
+fatmahost-crontab (branch sihepi)
+
+# update table - create
+hims.dft_trx_reservasi_utd_detail
+hims.history_input *utd
+hims.mreservasi
+hims.dft_trx_rservasi
+rsfBridging.sihepi dan url
+rsfLog.sihepi
+
+# update SP
+rsfMaster.selectize
+hims.mreservasi
+rsfMaster.ruangan_instalasi_get
+rsfMaster.cek_kuota_get
+hims.resv_create_post
+hims.resv_batal_put
+hims.resv_find_get
+hims.validasi_reservasi_get
+hims.pendaftaran_create_post
+hims.kuota_count dan find
+rsfProfil.cart_get
+rsfMaster.selectize_get (tarif group)
+rsfMaster.tarif_count_get (tarif)
+rsfMaster.tarif_find_get (tarif)
+rsfMaster.tarif_show_get (tarif)
+rsfKatalog.mkatalog_selectize_get(katalog)
+rsfPegawai.mpegawai
+rsfPegawai.pegawai_selectize
+rsfMaster.msetting
+rsfBridging.sihepi
+rsfLog.log_create_post
+rsfBridging.halosis_inquiry

@@ -1,0 +1,9 @@
+------- database TEST -------
+select status, TPULANG, pp.* from layanan.pasien_pulang pp order by TANGGAL desc;
+-- null                               => simpan
+-- status = 1 ( final )               => simpan
+-- status = 0 (batal final / simpan)  => final pulang
+select STATUS FROM pendaftaran.pendaftaran p WHERE p.NOMOR = '2310040001';
+select STATUS from pendaftaran.kunjungan k where k.NOMOR = '1010201012310040001';
+-- 1 belum final
+-- 2 final

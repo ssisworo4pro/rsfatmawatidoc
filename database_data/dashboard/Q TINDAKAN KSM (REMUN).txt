@@ -1,0 +1,54 @@
+SELECT  
+			 CONCAT(r.DESKRIPSI,
+			 	IF(r.JENIS_KUNJUNGAN = 3,
+			 		CONCAT(' (', rk.KAMAR, '/', rkt.TEMPAT_TIDUR, '/', kls.DESKRIPSI, ')'), '')
+			 ) RUANGAN,
+             ins.DESKRIPSI INSTALASI,
+             p.NOMOR NOPEN,
+						 mp.NORM,
+             mp.NAMA,
+             cb.DESKRIPSI CARABAYAR,
+			 t.NAMA LAYANAN,
+             master.getNamaLengkapPegawai(md.NIP) NAMA_DOKTER,
+             mr.DESKRIPSI KSM,
+			 rt.JENIS, ref.DESKRIPSI JENIS_RINCIAN,
+			 IF(rt.JENIS = 3, tm.TANGGAL, NULL) TANGGAL_TINDAKAN, 
+             kjgn.MASUK TANGGAL_DAFTAR,
+             kjgn.KELUAR TANGGAL_KELUAR,
+			 @JUMLAH := rt.JUMLAH JUMLAH, 
+             @TARIF := ROUND(rt.TARIF,2) TARIF, 
+             ROUND(@JUMLAH*@TARIF,2) TOTAL
+             
+             
+           
+             
+	  FROM pembayaran.rincian_tagihan rt
+	  		 LEFT JOIN layanan.tindakan_medis tm ON tm.ID = rt.REF_ID 
+	  		 LEFT JOIN `master`.tindakan t ON t.ID = tm.TINDAKAN
+	  		 LEFT JOIN pendaftaran.kunjungan kjgn USE INDEX (NOPEN) ON kjgn.NOMOR = tm.KUNJUNGAN
+	  		 LEFT JOIN pendaftaran.pendaftaran p ON p.NOMOR = kjgn.NOPEN
+	  		 LEFT JOIN `master`.ruangan r ON r.ID = kjgn.RUANGAN
+             LEFT JOIN `master`.ruangan ins ON left (ins.ID,5) = left (kjgn.RUANGAN,5) and ins.JENIS = '3' 
+	  		 LEFT JOIN `master`.ruang_kamar_tidur rkt ON rkt.ID = kjgn.RUANG_KAMAR_TIDUR
+	  		 LEFT JOIN `master`.ruang_kamar rk ON rk.ID = rkt.RUANG_KAMAR
+	  		 LEFT JOIN `master`.referensi kls ON kls.JENIS = 19 AND kls.ID = rk.KELAS
+	  		 LEFT JOIN `master`.referensi ref ON ref.JENIS = 30 AND ref.ID = rt.JENIS
+             LEFT JOIN master.pasien mp ON	mp.NORM = p.NORM
+             LEFT JOIN pendaftaran.penjamin pjm ON pjm.NOPEN=p.NOMOR
+             LEFT JOIN master.referensi cb ON cb.ID=pjm.JENIS and cb.JENIS='10' 
+             LEFT JOIN layanan.petugas_tindakan_medis ptm ON ptm.TINDAKAN_MEDIS=tm.ID
+             LEFT JOIN master.dokter md ON ptm.MEDIS=md.ID and ptm.JENIS=1
+             LEFT JOIN master.pegawai mpg ON md.NIP=mpg.NIP 
+             LEFT JOIN master.referensi mr ON mpg.SMF=mr.ID and mr.JENIS='26'
+            
+              
+	 WHERE 
+
+	  tm.TANGGAL >= '2023-05-01' and  tm.TANGGAL < '2023-05-04' AND
+        -- AND r.JENIS_KUNJUNGAN not in (1,2) or r.ID ='101090101'
+        -- AND kjgn.RUANGAN like '101020%'
+        rt.JENIS = 3 AND rt.STATUS = 1 and kjgn.STATUS != 0 AND p.STATUS != 0 AND
+        master.getNamaLengkapPegawai(md.NIP) IS NOT NULL
+
+
+        

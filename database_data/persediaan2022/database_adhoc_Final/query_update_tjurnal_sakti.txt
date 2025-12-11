@@ -1,0 +1,67 @@
+update tjurnal_sakti set katalog_kode = '40D108', sts_mapping = 1 where id = 54 and katalog_kode is null;
+update tjurnal_sakti set katalog_kode = '70N016', sts_mapping = 1 where id = 520 and katalog_kode is null;
+update tjurnal_sakti set katalog_kode = '50A055', sts_mapping = 1 where id = 579 and katalog_kode is null;
+update tjurnal_sakti set katalog_kode = 'PFH046', sts_mapping = 1 where id = 582 and katalog_kode is null;
+update tjurnal_sakti set katalog_kode = 'PFF', sts_mapping = 1 where id = 584 and katalog_kode is null;
+update tjurnal_sakti set katalog_kode = '80O016.10', sts_mapping = 1 where id = 1320 and katalog_kode is null;
+update tjurnal_sakti set katalog_kode = '90K056', sts_mapping = 1 where id = 2472 and katalog_kode is null;
+update tjurnal_sakti set katalog_kode = '80L098', sts_mapping = 1 where id = 4449 and katalog_kode is null;
+update tjurnal_sakti set katalog_kode = '80L097', sts_mapping = 1 where id = 4450 and katalog_kode is null;
+update tjurnal_sakti set katalog_kode = '80L094', sts_mapping = 1 where id = 4451 and katalog_kode is null;
+update tjurnal_sakti set katalog_kode = '80T086', sts_mapping = 1 where id = 4752 and katalog_kode is null;
+
+select 		* 
+	from 	tjurnal_sakti ts
+			left outer join tjurnal_sakti_klp tsk
+			on ts.sakti_nama_klp = tsk.sakti_nama_klp
+	where   katalog_kode is null
+			AND qty_akhir <> 0;
+
+
+CITICOLINE INJEKSI 500 MG
+
+40C139
+
+update tjurnal_sakti set katalog_kode = '40C139', sts_mapping = 1 where id = 27 and katalog_kode = '40C116';
+update tjurnal_sakti set katalog_kode = '40A144', sts_mapping = 1 where id = 70 and katalog_kode = '40A112';
+update tjurnal_sakti set katalog_kode = '10C001.25', sts_mapping = 1 where id = 593 and katalog_kode = '10C105';
+update tjurnal_sakti set katalog_kode = '10K059', sts_mapping = 1 where id = 598 and katalog_kode = '10K085';
+update tjurnal_sakti set katalog_kode = '10D205', sts_mapping = 1 where id = 621 and katalog_kode = '10D179';
+update tjurnal_sakti set katalog_kode = '10P236', sts_mapping = 1 where id = 627 and katalog_kode = '10P011';
+update tjurnal_sakti set katalog_kode = '30U014', sts_mapping = 1 where id = 1203 and katalog_kode = '30S094';
+update tjurnal_sakti set katalog_kode = '15C178', sts_mapping = 1 where id = 2213 and katalog_kode = '15S067';
+update tjurnal_sakti set katalog_kode = '15I022', sts_mapping = 1 where id = 2580 and katalog_kode = '15I027';
+update tjurnal_sakti set katalog_kode = '15F021', sts_mapping = 1 where id = 2672 and katalog_kode = '15F015';
+update tjurnal_sakti set katalog_kode = '42S182', sts_mapping = 1 where id = 2739 and katalog_kode = '42S310';
+update tjurnal_sakti set katalog_kode = '42B049', sts_mapping = 1 where id = 3087 and katalog_kode = '42B122';
+update tjurnal_sakti set katalog_kode = '42A037', sts_mapping = 1 where id = 3088 and katalog_kode = '42A156';
+update tjurnal_sakti set katalog_kode = '80P166', sts_mapping = 1 where id = 3158 and katalog_kode = '90P073';
+update tjurnal_sakti set katalog_kode = '15O022', sts_mapping = 1 where id = 3265 and katalog_kode = '10U014';
+update tjurnal_sakti set katalog_kode = '81B183', sts_mapping = 1 where id = 3563 and katalog_kode = '81B017';
+update tjurnal_sakti set katalog_kode = '80T171', sts_mapping = 1 where id = 4905 and katalog_kode = '81B172.01';
+update tjurnal_sakti set katalog_kode = '81S140', sts_mapping = 1 where id = 5017 and katalog_kode = '81S165';
+
+update tjurnal_sakti set katalog_kode = '81S140', sts_mapping = 1 where id = 4686;
+
+17V008
+SELECT * FROM tjurnal_sakti WHERE katalog_kode = '80A126'
+
+insert into laporan_so_grp (katalog_kode, katalog_kode_grp) values ('40V051','40V051');
+insert into laporan_so_grp (katalog_kode, katalog_kode_grp) values ('15Z008','15Z008');
+15Z008
+
+ZOE VIRUS
+
+
+81S140
+
+80T171
+
+
+40A144
+
+
+80A126
+SELECT * FROM tjurnal_sakti WHERE katalog_kode = '80A126'
+
+

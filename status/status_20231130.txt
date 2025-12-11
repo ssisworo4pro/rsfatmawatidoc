@@ -1,0 +1,71 @@
+REMUNERASI EXECUTIVE
+-------------------------------------------
+terdiri atas :
+1. BEDAHPRINA
+   pasien dengan cara bayar 'TUNAI BEDAH PRIMA'.
+   - terdapat kasus cara bayar jaminan
+     yang selain rawat inap terkadang juga 'BEDAH PRIMA'
+     solusi :
+     * penambahan flag status 'BEDAH PRIMA' di pendaftaran
+       target implementasi : 6 Des
+	   
+   STATUS 30-NOV :
+   * ada ide lebih cepat,
+     ditandai dengan jenis NON PAKET vs PAKET BEDAH PRIMA.
+	 sedang di test apakah ada permasalahan lain yg mungkin timbul
+	 
+2. POLIKLINIK GRIYA HUSADA
+   - masalah discount, sering hilang setelah diinput,
+     dan tidak link langsung dengan pelayanan dokter
+     solusi :
+     * dibuatkan inputan discount
+       target implementasi : 6 Des
+	   
+   STATUS 30-NOV :
+   * inputan sering hilang sudah diperbaiki. (discount secara general)
+   * pembuatan inputan persen dokter (bisa dokter yang input langsung)
+	 
+   # catatan : TINDAKAN pasien JKN (costsharing),
+     dinolkan (tidak dibayar)
+     contoh : ekg di poli jantung
+   STATUS 30-NOV :
+   * dinolkan, bukan di pindah jadi JKN yach ...
+	 
+   # pencatatan pembayaran TUNAI dengan interkoneksi MHAS
+     target ujicoba : 2 Des
+     target implementasi : 6 Des
+   STATUS 30-NOV :
+   * mulai dikerjakan perhitungan pemecahan tagihan
+
+3. PEMERIKSAAN RADIOLOGI pasien GRIYA HUSADA
+   # berdasarkan input hasil oleh dokter RADIOLOGI
+   - masih cek ulang kesesuaian data oleh keuangan
+     target : 29 Nov
+   STATUS 30-NOV :
+   * cek data ulang hari ini
+   
+4. PEMERIKSAAN BOUGENVILE pasien GRIYA HUSADA
+   - masih cek ulang kesesuaian data oleh keuangan
+     target : 29 Nov
+   STATUS 30-NOV :
+   * cek data ulang hari ini
+	 
+5. PEMERIKSAAN LABORATORIUM pasien GRIYA HUSADA
+   - masih dalam proses validasi proses pengiriman
+     data dari LAS
+     target : 6 Des
+   STATUS 30-NOV :
+   * sudah realtime terkirim, sedang monitoring
+
+6. PEMERIKSAAN UKVI pasien NON JKN
+   - masih cek ulang kesesuaian data oleh keuangan
+     target : 29 Nov
+   STATUS 30-NOV :
+   * cek data ulang hari ini
+     
+setelah seluruhnya terimplementasi :
+* secara berkala dilakukan pemeriksaan data.
+  selama bulan desember. (masa ujicoba)
+  untuk ditambahkan validasi-validasi transaksi,
+  jika diperlukan.
+* diharapkan dapat otomatis berjalan sejak awal tahun.

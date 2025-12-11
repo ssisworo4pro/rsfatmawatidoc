@@ -1,0 +1,25 @@
+Sakti :
+------------------------------
+1.  Inputan Total Bayar / COD
+	1. 	Tanpa BKU (kasus COD)
+		- input header nomor BKU, dan tanggal BKU
+		- input detail nomor COD dan Total bayar
+	2. 	Dengan BKU
+		a. sudah ada bku
+		   - input total bayar
+		b. belum ada bku (hutang)
+2.  Verifikasi
+	- Muncul yang sudah di-proses 1
+3.  Generate ADK
+4.  View yang sudah Generate ADK
+
+Pembulatan :
+------------------------------
+1.	per BTB
+2.	pembulatan ke bawah
+3.	barang pertama diambil qty 1, untuk nilai penyesuaian
+
+Catatan :
+------------------------------
+1.	Tanggal buku adalah tanggal pembukuan di aplikasi (tgl_verifikasi_gudang)
+	Tanggal dokumen ada tanggal saat adk di keluarkan dan di upload

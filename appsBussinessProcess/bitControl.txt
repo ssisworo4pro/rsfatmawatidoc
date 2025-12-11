@@ -1,0 +1,33 @@
+bitcontrol1 :
+	16 digit dari kiri
+	bit #1   	:   tombol cari pasien (0. tidak aktif/hide, 1. aktif)
+	bit #2    	:   tombol tambah pasien (0. tidak aktif/hide, 1. aktif)
+	bit #3 		: 	tombol tambah form (0. tidak aktif/hide, 1. aktif)				
+
+bitcontrol2 :
+	16 digit dari kiri
+	UTD
+			bit #1 	: 	Level Pendaftaran (0 : ya, 1 : tidak)
+			bit #2 	: 	Level Pemeriksaan (0 : ya, 1 : tidak)
+			bit #3 	: 	Level Dokter (0 : ya, 1 : tidak)
+			Contoh Data
+				010 	: level pendaftaran
+				110 	: level pendaftaran dan pemeriksaan
+				111 	: level pendaftaran, pemeriksaan dan dokter
+		ATAU
+			bit #1 	: 	1. Level Pendaftaran
+						2. Level PemeriksaaN
+						4. Level Dokter
+			Contoh Data
+				1. pendaftara
+				2. pemeriksaan
+				3. pendaftaran & pemerisaan
+				7. semua
+				4. dokter doank
+	
+	MASTER KATALOG
+		bit #1	:   0 Semua kolom tidak aktif
+					1 Semua Kolom aktif, kecuali sts_aktif & kode_sakti
+					2 Semua Kolom tidak aktif, kecuali kode_sakti
+					3 Semua Kolom aktif tanpa kecuali
+					

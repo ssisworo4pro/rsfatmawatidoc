@@ -1,0 +1,20 @@
+
+- npwp
+- user upload harus sama user
+
+HEADER
+- pastikan no bast tidak ada kode pipe, karena sparator pipe
+- tgldokumen2 = tgldokumen, tgl buku tidak boleh melebihi tgl
+- jumlah karakter terkirim max 255
+
+DETIL COA
+
+DETIL BARANG
+
+
+thAnggaran-kodeSatker-Filename
+
+discount stelah barang dikirim dan kesepakatan harga.
+1127
+1039
+1039

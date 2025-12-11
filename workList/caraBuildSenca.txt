@@ -1,0 +1,43 @@
+
+//DATABASE UPDATE SIMRSGOS
+
+cd /var/www/html/webapps/db/patchs
+
+    	sed -i -e 's/\r$//' patch.sh
+   	chmod +x patch.sh
+    	bash patch.sh test
+
+
+|------------------------------------------------|
+
+//DATABASE PATCHING CARA LAIN SIMRSGOS
+
+cd /var/www/html/webapps/
+
+    	sed -i -e 's/\r$//' clear_cr.sh
+    	./patch_db.sh .
+
+
+|------------------------------------------------|
+
+
+//BUILD APPLICATION SIMRSGOS
+
+cd /var/www/html/webapps
+
+	sed -i -e 's/\r$//' clear_cr.sh
+	sudo bash clear_cr.sh
+	./build.sh 1 1
+
+|------------------------------------------------|
+
+//BUILD PACKAGE SIMRSGOS
+
+cd /var/www/html/webapps
+./build.sh package namapackage
+
+
+|------------------------------------------------|
+//build untuk seperti ubah warna. atau perubahan pada Main.scss
+.build.s app SIMpel
+	

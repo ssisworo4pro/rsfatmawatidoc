@@ -1,0 +1,10 @@
+api dashboard rawat jalan :
+	http://192.168.5.52:90/dash?parm0=rajal&parm1=token&parm2={"method":"home","parm1":"H-1","parm2":"-","parm3":"-"}
+	http://192.168.5.52:90/dash?parm0=rajal&parm1=token&parm2=[{"xparm0":"rajal","parm1":"H-1","parm2":"10106","parm3":"-","method":"pendaftaranDetil"}]
+	http://192.168.5.52:90/dash?parm0=rajal&parm1=token&parm2=[{"xparm0":"rajal","parm1":"H","method":"homeChart"}]
+	
+api dashboard rawat inap :
+    http://192.168.5.52:90/dash?parm0=ranap&parm1=token&parm2=[{"xparm0":"ranap","parm1":"H-1","method":"home"}]
+	http://192.168.5.52:90/dash?parm0=ranap&parm1=token&parm2=[{"xparm0":"ranap","parm1":"H-1","parm2":"1010201","parm3":"-","method":"pendaftaranDetil"}]
+	http://192.168.5.52:90/dash?parm0=ranap&parm1=token&parm2=[{"xparm0":"ranap","parm1":"H-1","parm2":"1010201","parm3":"-","method":"pendaftaranDetilPulang"}]
+	http://192.168.5.52:90/dash?parm0=ranap&parm1=token&parm2=[{"xparm0":"ranap","parm1":"H","method":"homeChart"}]

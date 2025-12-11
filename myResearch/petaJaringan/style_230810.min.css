@@ -1,0 +1,329 @@
+@use 'sass:math';
+
+body {
+    font-family: "Open Sans", arial, sans-serif;
+    font-size: 13px;
+    color: #323233;
+    background-color: #000000;
+    margin: 0;
+    padding: 0;
+    font-smooth: always;
+    -webkit-font-smoothing: antialiased!important;
+    -moz-font-smoothing: antialiased!important;
+    font-smoothing: antialiased!important;
+}
+.map-marker a {
+    cursor: pointer;
+}
+.map-marker {
+    position: absolute;
+}
+.network-container {
+    left: 50%;
+    max-width: 100%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    height: 100%;
+}
+.map {
+    margin: 0 0 10px;
+    position: relative;
+}
+.map-marker:after {
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-name: pop;
+    border-radius: 50%;
+    border: 5px solid #ff7789;
+    content: '';
+    height: 15px;
+    left: -7px;
+    opacity: 0;
+    position: absolute;
+    top: -7px;
+    width: 15px;
+}
+.map-marker .dots {
+    background-color: #db1f26;
+    border-radius: 50%;
+    height: 20px;
+    display: block;
+    text-indent: -99999px;
+    width: 20px;
+}
+.map-marker .dotsok {
+    background-color: #00FF00;
+    border-radius: 50%;
+    height: 20px;
+    display: block;
+    text-indent: -99999px;
+    width: 20px;
+}
+.map-marker .lines-oks {
+    background-color: #00FF00;
+    text-indent: -99999px;
+    width: 20px;
+    border: 1px solid #C4C4C4;
+    margin: 3px;
+}
+
+.map-marker .lines-nok {
+    height: 1px;
+    border: 1px solid #FF0000;
+    display:inline-block;
+  }
+.map-marker .lines-ok {
+    height: 1px;
+    border: 1px solid #00FF00;
+    display:inline-block;
+  }
+
+.map-marker-dto-lines-nok {
+    --oy: 71%;
+    --ox: 54.5%;
+    --ey: 46%;
+    --ex: 44.5%;
+    --yd: calc(var(--ey) - var(--oy));
+    --xd: calc(var(--ex) - var(--ox));
+    --angl: calc(atan2(var(--yd), var(--xd)));
+    --w: sqrt(calc((var(--ex)-var(--ox))*(var(--ex)-var(--ox)) + (var(--ey)-var(--oy))*(var(--ey)-var(--oy))));
+    top: calc(var(--oy));
+    left: calc(var(--ox));
+    rotate: var(--angl);
+    width: calc((var(--w) * 1#{$px}));
+    transform: translate(0%, -350%);
+}
+.map-marker-dto-lines-ok {
+    --oy: 71%;
+    --ox: 54.5%;
+    --ey: 46%;
+    --ex: 44.5%;
+    --yd: calc(var(--ey) - var(--oy));
+    --xd: calc(var(--ex) - var(--ox));
+    --angl: calc(atan2(var(--yd), var(--xd)));
+    /*--w: sqrt(calc((var(--ex)-var(--ox))*(var(--ex)-var(--ox)) + (var(--ey)-var(--oy))*(var(--ey)-var(--oy))));*/
+    --w: 1500px;
+    top: calc(var(--oy));
+    left: calc(var(--ox));
+    /* rotate: var(--angl);*/
+    /* width: calc((var(--w)));*/
+    width: 200px;
+    /*transform: translate(-50%, -50%);*/
+}
+.map-marker-dto {
+    top: 71%;
+    left: 54.5%;
+}     
+.map-marker-server {
+    top: 46%;
+    left: 44.5%;
+}
+
+.line {
+    width: 100%;
+    color: #00FF00;
+    background-color: #00FF00;
+    height: 1px;
+}
+
+.map-marker-info {
+    display: none;
+    left: 50%;
+    position: absolute;
+    bottom: -10px;
+    transform: translate(-50%, -2em);
+    width: max-content;
+    z-index: 999;
+}
+.map-marker-info .items {
+    text-align: center;
+    background: #ce606f;
+    border-radius: .5em;
+    color: #fff;
+    padding: .5em 1em;
+}
+.map-marker-info a {
+    color: #fff;
+    text-decoration: none;
+}
+.map-marker-info-inner {
+    border-radius: .5em;
+    box-shadow: 0 0 .25em rgba(0, 0, 0, .3);
+    font-size: .875em;
+}
+.map-marker-info-inner:after {
+    border-left: .75em solid transparent;
+    border-right: .75em solid transparent;
+    border-top: 1em solid #ce606f;
+    content: '';
+    height: 0;
+    left: 50%;
+    position: absolute;
+    top: 100%;
+    transform: translateX(-50%);
+    width: 0;
+    margin-top: -1px;
+}
+.map-marker-aceh {
+    left: 6%;
+    top: 14%}
+.map-marker-sumut {
+    left: 10%;
+    top: 23%}
+.map-marker-sumbar {
+    left: 12.7%;
+    top: 41%}
+.map-marker-riau {
+    left: 15%;
+    top: 33%}
+.map-marker-kepri {
+    left: 21%;
+    top: 21%}
+.map-marker-jambi {
+    left: 17%;
+    top: 45%}
+.map-marker-sumsel {
+    left: 21%;
+    top: 62%}
+.map-marker-babel {
+    left: 23.5%;
+    top: 49%}
+.map-marker-bengkulu {
+    left: 15%;
+    top: 54%}
+.map-marker-lampung {
+    left: 20%;
+    top: 54%}
+.map-marker-banten {
+    left: 22.7%;
+    top: 70.5%}
+.map-marker-jakarta {
+    left: 24.5%;
+    top: 68.5%}
+.map-marker-jabar {
+    left: 26%;
+    top: 73%}
+.map-marker-jateng {
+    left: 30%;
+    top: 74.5%}
+.map-marker-jatim {
+    left: 37%;
+    top: 79%}
+.map-marker-jogja {
+    left: 31.5%;
+    top: 78.5%}
+.map-marker-bali {
+    left: 40.5%;
+    top: 81%}
+.map-marker-kalbar {
+    left: 33%;
+    top: 37%}
+.map-marker-kalteng {
+    left: 37%;
+    top: 46%}
+.map-marker-kaltara {
+    left: 43%;
+    top: 27%}
+.map-marker-kalsel {
+    left: 41%;
+    top: 53%}
+.map-marker-sulbar {
+    right: 50.5%;
+    top: 46%}
+.map-marker-sulsel {
+    right: 49.5%;
+    top: 57%}
+.map-marker-sultra {
+    right: 45.5%;
+    bottom: 42%}
+.map-marker-sulteng {
+    left: 51.3%;
+    top: 44%}
+.map-marker-sulut {
+    right: 41%;
+    top: 32%}
+.map-marker-gorontalo {
+    left: 54%;
+    top: 32%}
+.map-marker-ntb {
+    right: 55%;
+    top: 83%}
+.map-marker-malut {
+    right: 34.5%;
+    top: 29%}
+.map-marker-maluku {
+    right: 33.5%;
+    top: 53%}
+.map-marker-papua {
+    right: 11%;
+    top: 51%}
+.map-marker-papuabarat {
+    right: 23%;
+    top: 42%}
+.map-marker-sorong {
+    right: 27.5%;
+    top: 42%}
+.map-marker-babel:after, .map-marker-bali:after, .map-marker-banten:after, .map-marker-gorontalo:after, .map-marker-jakarta:after, .map-marker-jambi:after, .map-marker-jateng:after, .map-marker-jogja:after, .map-marker-kalbar:after, .map-marker-kalsel:after, .map-marker-kalteng:after, .map-marker-kepri:after, .map-marker-maluku:after, .map-marker-ntb:after, .map-marker-papuabarat:after, .map-marker-papuaselatan:after, .map-marker-papuatengah:after, .map-marker-papuatinggi:after, .map-marker-riau:after, .map-marker-sulbar:after, .map-marker-sulsel:after, .map-marker-sumbar:after, .map-marker-sumsel:after {
+    animation-delay: 5s;
+}
+.map-marker-aceh:after, .map-marker-bengkulu:after, .map-marker-jabar:after, .map-marker-jatim:after, .map-marker-kaltara:after, .map-marker-server:after, .map-marker-lampung:after, .map-marker-malut:after, .map-marker-dto:after, .map-marker-papua:after, .map-marker-sulteng:after, .map-marker-sultra:after, .map-marker-sulut:after, .map-marker-sumut:after {
+    animation-delay: 2.5s;
+}
+.animate {
+    animation-duration: 1s;
+    animation-fill-mode: both;
+}
+
+@keyframes bounce-in {
+    0%, 100%, 60%, 80% {
+        transition-timing-function: cubic-bezier(.215, .61, .355, 1);
+    }
+    0% {
+        opacity: 0;
+        transform: scale3d(.3, .3, .3);
+    }
+    60% {
+        opacity: 1;
+        transform: scale3d(1.03, 1.03, 1.03);
+    }
+    80% {
+        transform: scale3d(.97, .97, .97);
+    }
+    100% {
+        opacity: 1;
+        transform: scale3d(1, 1, 1);
+    }
+}
+.animate-bounce-in {
+    animation-duration: .75s;
+    animation-name: bounce-in;
+}
+@keyframes pop {
+    0% {
+        transform: scale(0);
+    }
+    8% {
+        opacity: .4;
+    }
+    10% {
+        opacity: 0;
+        transform: scale(1);
+    }
+}
+.animate-pop {
+    animation-duration: 1s;
+    animation-name: pop;
+}
+.main-menu {
+    margin-bottom: 20px;
+    font-size: 15px;
+    border-radius: 0;
+    border: 0 solid rgba(0, 0, 0, .15);
+}
+html.dark .ads-placeholder-inside:before, html.dark .ads-placeholder:before {
+    background: #525252!important;
+}
+#commentins li:hover .flagcomment, #mdrop, #mdrop:hover .ddrop, #sharebox, #skinads, .btsquare a, .map-marker:hover .map-marker-info, .mlbn ul li:hover ul, .navhl a, .navhl2 a, .shou, .shou a, .show, .txt-article figure a {
+    display: block;
+}

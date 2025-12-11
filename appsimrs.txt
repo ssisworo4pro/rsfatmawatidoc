@@ -1,0 +1,36 @@
+source from hims-frontend-hospianew 16 mei 2023 10:58
+> npm install --legacy-peer-deps
+> .env
+VUE_APP_BASE_URL="/"
+VUE_APP_I18N_LOCALE=en
+VUE_APP_I18N_FALLBACK_LOCALE=en
+
+VUE_APP_FATMAHOST_AUTH_SERVICE="https://devfatmahostauth.rsupfatmawati.id"
+VUE_APP_FATMAHOST_MASTER_SERVICE="https://devfatmahostmaster.rsupfatmawati.id"
+VUE_APP_FATMAHOST_USERS_SERVICE="https://devfatmahostusers.rsupfatmawati.id"
+VUE_APP_FATMAHOST_PEGAWAI_SERVICE="https://devfatmahostpegawai.rsupfatmawati.id"
+VUE_APP_FATMAHOST_MEMBER_SERVICE="https://devfatmahostmember.rsupfatmawati.id"
+VUE_APP_HIMS_BACKEND_SERVICE="https://devfatmahostlaravel.rsupfatmawati.id:8000"
+> router.index.js
+  {
+    path: '/',
+    name: '/',
+    redirect: '/auth/signin'
+  },
+  {
+    path: '/welcome',
+    name: 'welcome',
+    component: Welcome
+  },
+from
+  {
+    path: '/',
+    name: 'welcome',
+    component: Welcome
+  },
+> src/layouts/AuthLayouts/AuthLayout1.vue
+> src/component/xray/sidebars/SideBarStyle2.vue
+> src/layouts/Layout1.vue
+  import SideBarStyle1 from '../components/xray/sidebars/SideBarStyle2'
+     from
+  import SideBarStyle1 from '../components/xray/sidebars/SideBarStyle1'

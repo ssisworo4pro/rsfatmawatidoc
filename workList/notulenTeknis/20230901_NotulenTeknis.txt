@@ -1,0 +1,33 @@
+Target Minggu pertama September
+---------------------------------------------------------
+1. - task list bios
+   - take down simrsgos.bios, ganti dengan simrs.bios
+2. iki vs iku
+3. inventory
+   - pinjam & kembali
+4. Quota Reservasi Online
+5. Review
+   - final rekam medis, final kunjungan, final tagihan di Poliklinik dan Griya
+   - setiap jam 12 malam, final-kan rekam medis irj & griya yang sudah final kunjungan
+   - mutasi perawat
+6. Simrsgos
+   - cppt (1)
+   - laporan farmasi (2)
+   - cetakan pengkajian awal pertama
+   - validasi pemilihan tempat tidur yang sudah direservasi oleh pasien lain.
+   - nyangkut setelah batal reservasi tto
+   - (5)
+   - (6) ok
+   
+Mutasi Rawat Inap
+--------------------------
+1. cppt final, saat terima mutasi *
+   kunjungan otomatis final, saat terima mutasi
+2. batal mutasi
+   - batalkan kunjungan terakhir
+   - batal final kunjungan sebelumnya (dibuat otomatis)
+   * kasus tto double
+3. batal pulang 
+   * kasus batal dengan pilihan 'dng tgl keluar baru', JIKA tempat tidurnya masih kosong.
+4. batal final bukan di ruang terakhir
+   * hanya pilihan 'kelalaian input' (tidak pilihan)

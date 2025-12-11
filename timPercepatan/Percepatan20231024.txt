@@ -1,0 +1,63 @@
+1. Analisa Kebutuhan
+2. Design
+3. Implementasi
+4. Pengujian
+5. Monitoring
+
+bulan.1 
+=============================
+- corporate vs marketing
+  * 
+- membangun Web RS dengan cms
+  * disain Tampilan
+  * disain Artikel
+  * SEO
+- Isi Web :
+  * Ketersediaan Tempat Tidur
+  * Reservasi IGH & IRJ
+  * Artikel / Berita
+- Update / Pemeliharaan Web RS
+  * pemeliharaan Artikel / Berita
+- Integrasi data (reservasi, tempat tidur, dll)
+  * via Web RS
+  * via MobileApps
+  * via Webapps
+  * via Telp
+  * via WA
+- Kasus-kasus dan Dokumentasi
+  * Alur Customer Service
+  * Alur Informasi
+  * Kasus Perubahan jadwal dokter
+    = Mendadak
+	= Terencana
+  * Kasus Booking Tempat Tidur
+
+bulan.2-4
+=============================
+- Informasi Antrian
+  * Mekanisme antrian poli
+  * Mekanisme antrian obat
+  * Informasi antrian berjalan 
+    dan estimasinya
+  * evaluasi antrian dalam rangka menentukan estimasi
+  * Mekanisme antrian terlewat
+- Booking Tempat Tidur
+
+
+
+
+WEB PORTAL
+- Corporate
+- Marketing
+
+Membuat komunitas
+
+statistik lalu lintas kunjungan portal
+retensi : caranya
+konversi
+pengukuran
+
+
+Mendapatkan informasi
+Akses 
+chatbot
